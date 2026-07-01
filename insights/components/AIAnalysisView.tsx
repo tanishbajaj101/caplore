@@ -12,7 +12,7 @@ export function AIAnalysisView() {
           <p className="stage-subtitle">The company universe becomes a written, decision-ready readout.</p>
           <motion.div className="verdict" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
             <span>Overall read</span>
-            Directly named accelerator-exposed companies face sentiment risk, but the wider semiconductor read-through is mixed because cloud AI demand remains strong.
+            The policy shift is broadly positive for Indian lenders and rate-sensitive financials. Lower funding costs and stronger credit demand provide support, while near-term margin compression remains the key risk for banks.
           </motion.div>
         </motion.aside>
         <motion.div className="analysis-grid" initial="hidden" animate="show" variants={{ hidden: {}, show: { transition: { delayChildren: 0.3, staggerChildren: 0.12 } } }}>

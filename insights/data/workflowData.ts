@@ -15,10 +15,10 @@ export const sectionDescriptions: Record<Act, string> = {
 };
 
 export const articleKeywords = [
-  { label: "Advanced chips", type: "Product / technology", delay: 1.05 },
-  { label: "Cloud AI demand", type: "Demand driver", delay: 1.45 },
-  { label: "Semiconductor supply", type: "Supply theme", delay: 2.15 },
-  { label: "TSMC / Nvidia", queueLabel: "TSMC · NVDA", type: "Named entities", delay: 3.7 },
+  { label: "RBI repo rate cut", type: "Monetary policy", delay: 1.05 },
+  { label: "System liquidity", type: "Funding driver", delay: 1.45 },
+  { label: "Bank credit growth", type: "Demand theme", delay: 2.15 },
+  { label: "HDFC Bank / SBI", queueLabel: "HDFCBANK · SBIN", type: "NSE entities", delay: 3.7 },
 ];
 
 export const processingSteps = [
@@ -30,44 +30,44 @@ export const processingSteps = [
 
 export const keywordCards = [
   {
-    source: "Advanced chips",
-    signal: "Export restrictions",
-    effect: "Negative",
-    tone: "negative",
-    timeframe: "Near term",
-    area: "Advanced AI chips",
-    why: "May restrict international accelerator sales.",
-    evidence: "Fresh controls target high-end chip exports.",
-  },
-  {
-    source: "Cloud AI demand",
-    signal: "Cloud spending accelerates",
+    source: "RBI repo rate cut",
+    signal: "Policy rate reduced",
     effect: "Positive",
     tone: "positive",
-    timeframe: "Medium term",
-    area: "Advanced chips",
-    why: "Supports continued infrastructure spending.",
-    evidence: "Hyperscalers continue to increase infrastructure spend.",
+    timeframe: "Near term",
+    area: "Banks, NBFCs and housing finance",
+    why: "Can lower borrowing costs and stimulate loan demand.",
+    evidence: "The RBI reduced the policy repo rate by 25 basis points.",
   },
   {
-    source: "Semiconductor supply",
-    signal: "Supply uncertainty",
+    source: "System liquidity",
+    signal: "Funding conditions ease",
+    effect: "Positive",
+    tone: "positive",
+    timeframe: "Near term",
+    area: "Bank and NBFC funding",
+    why: "Improves liquidity access and may reduce funding costs.",
+    evidence: "The central bank announced additional liquidity support.",
+  },
+  {
+    source: "Bank credit growth",
+    signal: "Loan demand may strengthen",
     effect: "Mixed",
     tone: "mixed",
-    timeframe: "Near term",
-    area: "Semiconductor supply",
-    why: "Could support pricing while limiting shipment visibility.",
-    evidence: "Policy changes add uncertainty across the chip ecosystem.",
+    timeframe: "Medium term",
+    area: "Retail and corporate lending",
+    why: "Higher volumes may be partly offset by narrower lending spreads.",
+    evidence: "Lower rates improve the outlook for credit growth.",
   },
   {
-    source: "TSMC / Nvidia",
+    source: "HDFC Bank / SBI",
     signal: "Named company exposure",
     effect: "Direct",
     tone: "direct",
     timeframe: "Immediate",
-    area: "TSMC and Nvidia",
-    why: "Both companies are explicitly linked to the developing catalyst.",
-    evidence: "The report specifically flags potential effects on both firms.",
+    area: "HDFC Bank and State Bank of India",
+    why: "Both NSE-listed banks are directly exposed to policy transmission.",
+    evidence: "The report highlights potential effects on HDFC Bank and SBI.",
   },
 ];
 
@@ -82,20 +82,20 @@ export type GraphNodeData = {
 };
 
 export const graphNodes: GraphNodeData[] = [
-  { id: "advanced", title: "Export restrictions", subtitle: "Negative · Near term", x: 8, y: 12, kind: "keyword" },
-  { id: "cloud", title: "Cloud spending", subtitle: "Positive · Medium term", x: 5, y: 36, kind: "keyword" },
-  { id: "supply", title: "Supply uncertainty", subtitle: "Mixed · Near term", x: 7, y: 62, kind: "keyword" },
+  { id: "policy", title: "Repo rate cut", subtitle: "Positive · Near term", x: 8, y: 12, kind: "keyword" },
+  { id: "liquidity", title: "Liquidity support", subtitle: "Positive · Near term", x: 5, y: 36, kind: "keyword" },
+  { id: "credit", title: "Credit growth", subtitle: "Mixed · Medium term", x: 7, y: 62, kind: "keyword" },
   { id: "entities", title: "Named exposure", subtitle: "Direct · Immediate", x: 10, y: 84, kind: "keyword" },
-  { id: "nvda", title: "NVDA", subtitle: "Direct impact", x: 88, y: 9, relevant: true, kind: "company" },
-  { id: "tsm", title: "TSM", subtitle: "Supplier impact", x: 91, y: 31, relevant: true, kind: "company" },
-  { id: "amd", title: "AMD", subtitle: "Adjacent impact", x: 90, y: 56, relevant: true, kind: "company" },
-  { id: "txn", title: "TXN", subtitle: "Indirect impact", x: 86, y: 81, relevant: true, kind: "company" },
-  { id: "avgo", title: "AVGO", subtitle: "Graph match", x: 73, y: 6, kind: "company" },
-  { id: "qcom", title: "QCOM", subtitle: "Graph match", x: 77, y: 25, kind: "company" },
-  { id: "mu", title: "MU", subtitle: "Graph match", x: 79, y: 47, kind: "company" },
-  { id: "intc", title: "INTC", subtitle: "Graph match", x: 77, y: 70, kind: "company" },
-  { id: "mrvl", title: "MRVL", subtitle: "Graph match", x: 65, y: 84, kind: "company" },
-  { id: "on", title: "ON", subtitle: "Graph match", x: 66, y: 13, kind: "company" },
+  { id: "hdfc", title: "HDFCBANK", subtitle: "HDFC Bank Ltd", x: 88, y: 9, relevant: true, kind: "company" },
+  { id: "sbi", title: "SBIN", subtitle: "State Bank of India", x: 91, y: 31, relevant: true, kind: "company" },
+  { id: "bajaj", title: "BAJFINANCE", subtitle: "Bajaj Finance Ltd", x: 90, y: 56, relevant: true, kind: "company" },
+  { id: "lichf", title: "LICHSGFIN", subtitle: "LIC Housing Finance Ltd", x: 86, y: 81, relevant: true, kind: "company" },
+  { id: "canbk", title: "CANBK", subtitle: "Canara Bank", x: 73, y: 6, kind: "company" },
+  { id: "pnb", title: "PNB", subtitle: "Punjab National Bank", x: 77, y: 25, kind: "company" },
+  { id: "federal", title: "FEDERALBNK", subtitle: "Federal Bank Ltd", x: 79, y: 47, kind: "company" },
+  { id: "chola", title: "CHOLAFIN", subtitle: "Cholamandalam Finance", x: 77, y: 70, kind: "company" },
+  { id: "mahindra", title: "M&MFIN", subtitle: "Mahindra Finance", x: 65, y: 84, kind: "company" },
+  { id: "rec", title: "RECLTD", subtitle: "REC Ltd", x: 66, y: 13, kind: "company" },
 ];
 
 export const graphLinks = [
@@ -117,31 +117,31 @@ export const graphLinks = [
 
 export const analysisCards = [
   {
-    ticker: "TSM",
-    name: "Taiwan Semiconductor",
+    ticker: "HDFCBANK",
+    name: "HDFC Bank",
     badge: "Direct",
     tone: "direct",
-    text: "Direct supply-chain mention. Export limits may pressure advanced-node visibility, but demand remains structurally supported.",
+    text: "Direct policy exposure. Stronger retail and corporate loan demand is supportive, while faster repricing of loans could pressure near-term margins.",
   },
   {
-    ticker: "NVDA",
-    name: "Nvidia",
+    ticker: "SBIN",
+    name: "State Bank of India",
     badge: "Direct",
     tone: "direct",
-    text: "Named exposure to accelerator controls. Near-term sentiment risk rises, partly offset by resilient cloud AI spending.",
+    text: "Direct policy beneficiary. A broad deposit franchise and improving system liquidity may support growth, partly offset by margin normalization.",
   },
   {
-    ticker: "AMD",
-    name: "Advanced Micro Devices",
+    ticker: "BAJFINANCE",
+    name: "Bajaj Finance",
     badge: "Exposure",
     tone: "exposure",
-    text: "Sector-adjacent read-through. Competitive demand may improve, but policy uncertainty weighs on the broader chip group.",
+    text: "Lower wholesale funding costs and stronger consumer borrowing are positive, although credit quality must be watched as loan growth accelerates.",
   },
   {
-    ticker: "TXN",
-    name: "Texas Instruments",
+    ticker: "LICHSGFIN",
+    name: "LIC Housing Finance",
     badge: "Indirect",
     tone: "positive",
-    text: "Lower direct AI exposure. May act as a defensive semi name if investors rotate away from export-sensitive accelerators.",
+    text: "Lower home-loan rates may improve housing demand and disbursements. The earnings benefit depends on how quickly funding costs decline.",
   },
 ];

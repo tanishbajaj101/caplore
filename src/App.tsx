@@ -12,7 +12,9 @@ const insightsBlock =
 function parseLegacyPage(html: string) {
   const styles = html.match(/<style>([\s\S]*?)<\/style>/i)?.[1] ?? "";
   const body = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? "";
-  const withoutScripts = body.replace(/<script[\s\S]*?<\/script>/gi, "");
+  const withoutScripts = body
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<button[^>]*>\s*Our Values\s*<\/button>/gi, "");
   const [beforeJourney, afterJourney = ""] = withoutScripts.split(journeyBlock);
   const [beforeInsights, afterInsights = ""] = afterJourney.split(insightsBlock);
 

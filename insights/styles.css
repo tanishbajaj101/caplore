@@ -239,15 +239,24 @@
 
   .article-paper-bar {
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
+    align-items: center;
+    gap: clamp(3px, 0.6vw, 8px);
     padding-bottom: 11px;
     border-bottom: 1px solid var(--lens-border);
-    color: #64748b;
-    font-size: 9px;
-    font-weight: 750;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .article-paper-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .article-paper-bar img {
+    width: auto;
+    height: 26px;
+    max-width: 130px;
+    flex: 0 0 auto;
+    object-fit: contain;
   }
 
   .article-meta {

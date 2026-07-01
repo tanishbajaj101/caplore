@@ -109,17 +109,8 @@ const revealVariants: Variants = {
 }
 
 const stageVariants: Variants = {
-  hidden: { opacity: 0, y: 12, scale: 0.985 },
-  visible: (index: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.42,
-      delay: 1.15 + index * 0.4,
-      ease: EASE,
-    },
-  }),
+  hidden: { opacity: 1, y: 0, scale: 1 },
+  visible: { opacity: 1, y: 0, scale: 1 },
 }
 
 type VisualProps = {
@@ -164,9 +155,6 @@ function SummaryVisual({ live }: VisualProps) {
     <div className="flex h-24 flex-col justify-center gap-2.5">
       {[86, 72, 55].map((width, index) => (
         <div key={width} className="flex items-center gap-2">
-          <span className="w-5 font-mono text-[7px] text-blue-400">
-            {String(index + 1).padStart(2, '0')}
-          </span>
           <div className="h-1 flex-1 overflow-hidden bg-blue-100">
             <motion.div
               className="h-full bg-blue-500"
@@ -177,7 +165,7 @@ function SummaryVisual({ live }: VisualProps) {
           </div>
         </div>
       ))}
-      <div className="mt-0.5 flex gap-1.5 pl-7">
+      <div className="mt-0.5 flex gap-1.5">
         <span className="border border-emerald-400/20 bg-emerald-400/[0.05] px-1.5 py-0.5 font-mono text-[7px] text-emerald-300">
           STRENGTHS 06
         </span>
@@ -476,36 +464,29 @@ export default function IpoLifecycleMotion() {
         </div>
 
         <div>
-          <div className="relative isolate mx-auto flex max-w-5xl flex-col gap-5 sm:px-4 lg:grid lg:grid-cols-6 lg:items-stretch lg:gap-x-8 lg:gap-y-12">
+          <div className="relative isolate mx-auto flex max-w-6xl flex-col gap-4 sm:px-4 lg:grid lg:grid-cols-5 lg:items-stretch lg:gap-5">
             {stages.map((stage, index) => {
               const Visual = visuals[stage.visualType]
               const selected = focusedStage === index
               return (
                 <motion.div
                   key={stage.id}
-                  custom={index}
                   variants={stageVariants}
-                  className={`relative flex min-w-0 flex-col items-center gap-3 lg:col-span-2 ${
-                    index === 3 ? 'lg:col-start-2' : ''
-                  }`}
+                  className="relative flex min-w-0 flex-col items-center gap-3"
                 >
                   <motion.article
                     tabIndex={0}
-                    aria-label={`${stage.number} — ${stage.title}: ${stage.label}`}
+                    aria-label={stage.title}
                     onHoverStart={() => setFocusedStage(index)}
                     onHoverEnd={() => setFocusedStage(null)}
                     onFocus={() => setFocusedStage(index)}
                     onBlur={() => setFocusedStage(null)}
                     className="relative w-full min-w-0 flex-1 overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_10px_30px_-24px_rgba(15,23,42,0.3)] outline-none transition-[border-color,box-shadow] duration-200 hover:border-slate-300 hover:shadow-[0_14px_34px_-24px_rgba(15,23,42,0.38)]"
                   >
-                    <div style={{ padding: '24px' }}>
-                      <div className="flex h-12 items-center justify-between">
-                        <div className="flex min-w-0 items-center gap-2.5">
-                          <span className="text-[10px] font-bold text-blue-600">
-                            {stage.number}
-                          </span>
-                          <span className="h-3 w-px bg-slate-200" />
-                          <h3 className="truncate text-sm font-bold tracking-tight text-slate-900">
+                    <div style={{ padding: '18px' }}>
+                      <div className="flex h-10 items-center justify-between">
+                        <div className="flex min-w-0 items-center">
+                          <h3 className="truncate text-base font-bold tracking-tight text-slate-900">
                             {stage.title}
                           </h3>
                         </div>
@@ -519,37 +500,12 @@ export default function IpoLifecycleMotion() {
                       </div>
 
                       <Visual live={visible} reducedMotion={reducedMotion} />
-
-                      <div className="py-3">
-                        <p className="text-[9px] font-bold uppercase tracking-[0.13em] text-blue-600">
-                          {stage.label}
-                        </p>
-                        <div className="mt-2 flex items-end justify-between gap-2">
-                          <span
-                            className={`text-base font-bold ${
-                              stage.visualType === 'listing' ||
-                              stage.visualType === 'sentiment'
-                                ? 'text-emerald-600'
-                                : 'text-slate-900'
-                            }`}
-                          >
-                            {stage.metric}
-                          </span>
-                          <span className="pb-0.5 text-right text-[8px] font-medium text-slate-500">
-                            {stage.metricLabel}
-                          </span>
-                        </div>
-                      </div>
                     </div>
 
                   </motion.article>
                   {index < stages.length - 1 && (
                     <span
-                      className={`shrink-0 rotate-90 text-xl font-medium text-blue-400 lg:absolute lg:z-10 ${
-                        index === 2
-                          ? 'lg:-bottom-9 lg:left-1/2 lg:-translate-x-1/2'
-                          : 'lg:-right-6 lg:top-1/2 lg:-translate-y-1/2 lg:rotate-0'
-                      }`}
+                      className="shrink-0 rotate-90 text-xl font-medium text-blue-400 lg:absolute lg:-right-4 lg:top-1/2 lg:z-10 lg:-translate-y-1/2 lg:rotate-0"
                       aria-hidden="true"
                     >
                       {'->'}
