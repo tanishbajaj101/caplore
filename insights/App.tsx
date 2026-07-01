@@ -58,7 +58,7 @@ export default function App() {
           <TopBar activeAct={activeAct} onChange={setActiveAct} />
           <main className="lens-content">
             <LayoutGroup id="market-workflow">
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="popLayout">
                 <motion.div
                   className="view-transition"
                   key={activeAct}

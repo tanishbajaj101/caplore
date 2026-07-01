@@ -35,7 +35,7 @@ export function ProcessingPanel() {
             >
               <span>{keyword.type}</span>
               <motion.strong layoutId={`evidence-${keyword.label}`}>
-                {keyword.queueLabel ?? keyword.label}
+                {keyword.label}
               </motion.strong>
               <i aria-hidden="true">↗</i>
             </motion.div>

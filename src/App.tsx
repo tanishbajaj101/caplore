@@ -3,11 +3,14 @@ import sourceHtml from "../caplore.html?raw";
 import InsightsApp from "../insights/App";
 import "../insights/styles.css";
 import IpoLifecycleMotion from "./components/IpoLifecycle";
+import InvestorTestimonials from "./components/InvestorTestimonials";
 
 const journeyBlock =
   /<!-- JOURNEY -->[\s\S]*?(?=<hr class="divider">)/;
 const insightsBlock =
   /<!-- AI INTELLIGENCE PROGRAMME[\s\S]*?<\/section>/;
+const testimonialsBlock =
+  /<!-- TESTIMONIALS -->[\s\S]*?(?=<!-- CTA -->)/;
 
 function parseLegacyPage(html: string) {
   const styles = html.match(/<style>([\s\S]*?)<\/style>/i)?.[1] ?? "";
@@ -17,8 +20,16 @@ function parseLegacyPage(html: string) {
     .replace(/<button[^>]*>\s*Our Values\s*<\/button>/gi, "");
   const [beforeJourney, afterJourney = ""] = withoutScripts.split(journeyBlock);
   const [beforeInsights, afterInsights = ""] = afterJourney.split(insightsBlock);
+  const [beforeTestimonials, afterTestimonials = ""] =
+    afterInsights.split(testimonialsBlock);
 
-  return { styles, beforeJourney, beforeInsights, afterInsights };
+  return {
+    styles,
+    beforeJourney,
+    beforeInsights,
+    beforeTestimonials,
+    afterTestimonials,
+  };
 }
 
 function usePhonePreview() {
@@ -116,7 +127,12 @@ export default function App() {
       </section>
       <div
         className="legacy-page-fragment"
-        dangerouslySetInnerHTML={{ __html: page.afterInsights }}
+        dangerouslySetInnerHTML={{ __html: page.beforeTestimonials }}
+      />
+      <InvestorTestimonials />
+      <div
+        className="legacy-page-fragment"
+        dangerouslySetInnerHTML={{ __html: page.afterTestimonials }}
       />
     </>
   );

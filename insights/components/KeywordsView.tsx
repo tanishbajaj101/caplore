@@ -25,7 +25,7 @@ export function KeywordsView() {
           {keywordCards.map((card, index) => (
             <motion.article
               className={`keyword-card ${card.tone}`}
-              key={card.signal}
+              key={card.source}
               layoutId={`insight-${card.source}`}
               variants={{ hidden: { opacity: 1 }, show: { opacity: 1 } }}
               transition={{ layout: { duration: 0.72, ease: [0.22, 1, 0.36, 1] } }}

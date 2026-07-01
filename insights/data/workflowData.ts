@@ -14,13 +14,6 @@ export const sectionDescriptions: Record<Act, string> = {
   4: "The company universe resolves into written AI analysis and an investor-facing verdict.",
 };
 
-export const articleKeywords = [
-  { label: "RBI repo rate cut", type: "Monetary policy", delay: 1.05 },
-  { label: "System liquidity", type: "Funding driver", delay: 1.45 },
-  { label: "Bank credit growth", type: "Demand theme", delay: 2.15 },
-  { label: "HDFC Bank / SBI", queueLabel: "HDFCBANK · SBIN", type: "NSE entities", delay: 3.7 },
-];
-
 export const processingSteps = [
   "Article loaded",
   "Market terms detected",
@@ -31,6 +24,7 @@ export const processingSteps = [
 export const keywordCards = [
   {
     source: "RBI repo rate cut",
+    category: "Monetary policy",
     signal: "Policy rate reduced",
     effect: "Positive",
     tone: "positive",
@@ -41,6 +35,7 @@ export const keywordCards = [
   },
   {
     source: "System liquidity",
+    category: "Funding driver",
     signal: "Funding conditions ease",
     effect: "Positive",
     tone: "positive",
@@ -51,6 +46,7 @@ export const keywordCards = [
   },
   {
     source: "Bank credit growth",
+    category: "Demand theme",
     signal: "Loan demand may strengthen",
     effect: "Mixed",
     tone: "mixed",
@@ -61,6 +57,7 @@ export const keywordCards = [
   },
   {
     source: "HDFC Bank / SBI",
+    category: "NSE entities",
     signal: "Named company exposure",
     effect: "Direct",
     tone: "direct",
@@ -70,6 +67,13 @@ export const keywordCards = [
     evidence: "The report highlights potential effects on HDFC Bank and SBI.",
   },
 ];
+
+// The Article evidence chips and Insight cards intentionally share one source
+// of truth so their labels and shared-layout IDs cannot drift apart.
+export const articleKeywords = keywordCards.map(({ source, category }) => ({
+  label: source,
+  type: category,
+}));
 
 export type GraphNodeData = {
   id: string;

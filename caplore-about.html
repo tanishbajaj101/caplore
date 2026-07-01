@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — Caplore, India's Private Capital Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1E5EFF;
+    --blue-light: #EEF3FF;
+    --green: #059669;
+    --green-light: #ECFDF5;
+    --text-primary: #0A0F1E;
+    --text-secondary: #4B5563;
+    --text-muted: #9CA3AF;
+    --border: #E5E7EB;
+    --border-strong: #D1D5DB;
+    --surface: #FFFFFF;
+    --surface-2: #F9FAFB;
+    --surface-3: #F3F4F6;
+    --navy: #0A0F1E;
+    --r: 12px;
+    --r-lg: 16px;
+    --r-xl: 24px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--text-primary); overflow-x: hidden; }
+
+  nav {
+    position: sticky; top: 0;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 1000;
+  }
+  .nav-logo { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; text-decoration: none; color: var(--text-primary); }
+  .nav-logo span { color: var(--blue); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+  .nav-btn { padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; font-family: 'Inter', sans-serif; }
+  .nav-btn.ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-strong); }
+  .nav-btn.ghost:hover { background: var(--surface-2); }
+  .nav-btn.solid { background: var(--blue); color: #fff; }
+  .nav-btn.solid:hover { background: #1a51e0; }
+
+  .section { padding: 72px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-tag { display: inline-block; background: var(--blue-light); color: var(--blue); border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-size: clamp(26px, 3.5vw, 40px); font-weight: 800; letter-spacing: -0.8px; color: var(--text-primary); margin-bottom: 10px; line-height: 1.15; }
+  .section-sub { color: var(--text-secondary); font-size: 15px; max-width: 580px; line-height: 1.7; }
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 0 40px; }
+  .btn-primary { background: var(--blue); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.2s; }
+  .btn-primary:hover { background: #1a51e0; }
+  .btn-outline { background: #fff; color: var(--text-primary); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid var(--border-strong); cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+  .btn-outline:hover { background: var(--surface-2); }
+
+  .about-hero { background: var(--surface-2); border-bottom: 1px solid var(--border); padding: 80px 40px; text-align: center; }
+  .about-hero h1 { font-size: clamp(30px, 5vw, 56px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 16px; color: var(--text-primary); }
+  .about-hero h1 em { font-style: normal; color: var(--blue); }
+  .about-hero p { color: var(--text-secondary); font-size: 16px; line-height: 1.75; max-width: 600px; margin: 0 auto; }
+
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .who-left h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -0.7px; line-height: 1.2; margin-bottom: 18px; color: var(--text-primary); }
+  .who-left p { color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 14px; }
+  .who-right { display: flex; flex-direction: column; gap: 12px; }
+  .who-stat { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px 20px; transition: border-color 0.2s; }
+  .who-stat:hover { border-color: var(--blue); }
+  .who-stat-num { font-size: 30px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 4px; }
+  .who-stat-label { color: var(--text-secondary); font-size: 13px; line-height: 1.5; }
+
+  .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+  .mv-card { border-radius: var(--r-xl); padding: 36px 30px; border: 1px solid; }
+  .mv-card.mission { background: var(--blue-light); border-color: #C7D9FF; }
+  .mv-card.vision { background: var(--green-light); border-color: #A7F3D0; }
+  .mv-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .mission .mv-label { color: var(--blue); }
+  .vision .mv-label { color: var(--green); }
+  .mv-card h3 { font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; line-height: 1.3; margin-bottom: 12px; }
+  .mv-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.75; }
+
+  .believe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 40px; }
+  .believe-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 26px 22px; transition: border-color 0.2s, box-shadow 0.2s; }
+  .believe-card:hover { border-color: var(--blue); box-shadow: 0 4px 20px rgba(30,94,255,0.07); }
+  .believe-num { font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 1px; background: var(--blue-light); display: inline-block; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; }
+  .believe-card h3 { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; line-height: 1.3; }
+  .believe-card p { color: var(--text-secondary); font-size: 13px; line-height: 1.7; }
+
+  .values-bg { background: var(--navy); padding: 72px 40px; }
+  .values-bg .section-title { color: #fff; }
+  .values-bg .section-sub { color: rgba(255,255,255,0.5); }
+  .values-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 40px; }
+  .val-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-lg); padding: 24px 18px; text-align: center; transition: border-color 0.2s; }
+  .val-card:hover { border-color: rgba(255,255,255,0.2); }
+  .val-icon-wrap { width: 40px; height: 40px; border-radius: 10px; background: rgba(30,94,255,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+  .val-icon-wrap svg { width: 18px; height: 18px; stroke: #60A5FA; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .val-card h4 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .val-card p { color: rgba(255,255,255,0.5); font-size: 12px; line-height: 1.6; }
+
+  .how-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 40px; }
+  .how-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 26px 24px; display: flex; gap: 16px; align-items: flex-start; transition: border-color 0.2s; }
+  .how-card:hover { border-color: var(--blue); }
+  .how-num { font-size: 24px; font-weight: 800; color: #D1D5DB; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+  .how-text h3 { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+  .how-text p { color: var(--text-secondary); font-size: 13px; line-height: 1.7; }
+
+  .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 40px; }
+  .diff-row { display: flex; align-items: flex-start; gap: 14px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px 22px; transition: border-color 0.2s; }
+  .diff-row:hover { border-color: var(--blue); }
+  .diff-check { width: 26px; height: 26px; border-radius: 50%; background: var(--green-light); border: 1px solid #A7F3D0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .diff-check svg { width: 12px; height: 12px; stroke: var(--green); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .diff-text h4 { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+  .diff-text p { color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+
+  .about-cta { background: var(--blue); padding: 72px 40px; text-align: center; }
+  .about-cta h2 { font-size: clamp(22px, 3vw, 36px); font-weight: 800; color: #fff; letter-spacing: -0.7px; margin-bottom: 12px; }
+  .about-cta p { color: rgba(255,255,255,0.7); font-size: 15px; margin-bottom: 28px; max-width: 420px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+  .about-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-white { background: #fff; color: var(--blue); padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .btn-white-outline { background: transparent; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid rgba(255,255,255,0.35); cursor: pointer; font-family: 'Inter', sans-serif; }
+
+  footer { background: var(--navy); padding: 56px 40px 28px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; max-width: 1200px; margin-left: auto; margin-right: auto; }
+  .footer-logo { font-weight: 800; font-size: 18px; color: #fff; }
+  .footer-logo span { color: #60A5FA; }
+  .footer-tagline { font-style: italic; color: rgba(255,255,255,0.3); font-size: 12px; margin: 6px 0 10px; }
+  .footer-brand p { color: rgba(255,255,255,0.45); font-size: 13px; line-height: 1.65; max-width: 220px; }
+  .footer-col h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.35); margin-bottom: 14px; }
+  .footer-col a { display: block; color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px; margin-bottom: 9px; transition: color 0.2s; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; display: flex; align-items: center; justify-content: space-between; color: rgba(255,255,255,0.35); font-size: 12px; max-width: 1200px; margin: 0 auto; }
+
+  @media(max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .about-hero, .section, .values-bg, .about-cta { padding: 48px 20px; }
+    hr.divider { margin: 0 20px; }
+    .who-grid, .mv-grid, .diff-grid { grid-template-columns: 1fr; }
+    .believe-grid, .values-grid { grid-template-columns: repeat(2, 1fr); }
+    .how-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; padding: 0 20px; }
+  }
+  @media(max-width: 480px) {
+    .believe-grid, .values-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="caplore.html">Cap<span>lore</span></a>
+  <div class="nav-links">
+    <a href="caplore.html">Home</a>
+    <a href="caplore-about.html" class="active">About Us</a>
+    <a href="caplore.html#ecosystem">Ecosystem</a>
+    <a href="caplore.html#partnerships">Partnerships</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn ghost">Login</button>
+    <button class="nav-btn solid">Become Premium</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div style="max-width:800px;margin:0 auto">
+    <div class="section-tag" style="margin-bottom:20px">About Caplore</div>
+    <h1>We are not a brokerage.<br>We are <em>infrastructure.</em></h1>
+    <p>CAPLORE is building the digital infrastructure for India's private capital markets, a single operating system where investors discover exclusive opportunities, conduct institutional-grade research, manage portfolios, and connect with the people who matter.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WHO WE ARE -->
+<section class="section">
+  <div class="who-grid">
+    <div class="who-left">
+      <div class="section-tag">Who We Are</div>
+      <h2>India's Private Capital Operating System</h2>
+      <p>CAPLORE is built to bridge one of the most persistent gaps in Indian capital markets, the distance between sophisticated investors and the exclusive private opportunities they cannot easily find, evaluate, or trust.</p>
+      <p>We work closely with HNIs, family offices, PMS and AIF managers, founders, and merchant bankers to unify opportunity discovery, comparison, research, portfolio management, and community into one connected platform.</p>
+      <p>We believe that India's best private market opportunities should not depend on who you know. They should depend on the quality of research, governance, and intelligence available to every serious investor. That is the gap CAPLORE exists to close.</p>
+    </div>
+    <div class="who-right">
+      <div class="who-stat">
+        <div class="who-stat-num" style="color:var(--blue)">₹5,000+ Cr</div>
+        <div class="who-stat-label">In investment opportunities tracked across private equity, pre-IPO, PMS, and AIF on the platform.</div>
+      </div>
+      <div class="who-stat">
+        <div class="who-stat-num" style="color:#3B82F6">7</div>
+        <div class="who-stat-label">Integrated pillars, Invest, Marketplace, Research, Portfolio, Community, Investor Services, and CAPLORE AI.</div>
+      </div>
+      <div class="who-stat">
+        <div class="who-stat-num" style="color:var(--green)">1</div>
+        <div class="who-stat-label">Unified operating system where investors discover, evaluate, and manage private capital with confidence.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MISSION & VISION -->
+<section class="section">
+  <div class="section-tag">Mission & Vision</div>
+  <h2 class="section-title">What We Are Building Towards</h2>
+  <p class="section-sub">Every decision we make is anchored to a long-term purpose, not a short-term transaction.</p>
+  <div class="mv-grid">
+    <div class="mv-card mission">
+      <div class="mv-label">Our Mission</div>
+      <h3>Quality capital deserves access to quality opportunities. Quality opportunities deserve access to informed capital.</h3>
+      <p>CAPLORE exists to bridge that gap. We give sophisticated investors a single platform to discover, research, and manage private capital, while giving credible founders and fund managers access to the investors who can genuinely back them.</p>
+      <p style="margin-top:12px">We are not simply listing deals. We are building the infrastructure investors actually trust.</p>
+    </div>
+    <div class="mv-card vision">
+      <div class="mv-label">Our Vision</div>
+      <h3>India's Bloomberg Terminal for private capital, where every serious investor operates.</h3>
+      <p>Our long-term ambition is to become the single operating system that sophisticated investors, family offices, and institutions rely on for opportunity discovery, research, AI intelligence, and portfolio management.</p>
+      <p style="margin-top:12px">Not another investment app. The digital headquarters of India's private capital markets.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WHAT WE BELIEVE -->
+<section class="section">
+  <div class="section-tag">What We Believe</div>
+  <h2 class="section-title">The Principles That Drive Us</h2>
+  <p class="section-sub">These are not values on a wall. They are the decisions we make every day.</p>
+  <div class="believe-grid">
+    <div class="believe-card">
+      <div class="believe-num">01</div>
+      <h3>Research before access</h3>
+      <p>We do not simply list opportunities. Every deal, PMS, and AIF on the platform is backed by institutional-grade research before it reaches an investor.</p>
+    </div>
+    <div class="believe-card">
+      <div class="believe-num">02</div>
+      <h3>Governance is the real differentiator</h3>
+      <p>In private markets, the businesses and funds with the strongest governance consistently outperform. We score and surface governance quality on every opportunity.</p>
+    </div>
+    <div class="believe-card">
+      <div class="believe-num">03</div>
+      <h3>Access should be earned, not networked</h3>
+      <p>The best opportunities should not depend on who you happen to know. A structured, verified platform creates fairer, more efficient access for everyone.</p>
+    </div>
+    <div class="believe-card">
+      <div class="believe-num">04</div>
+      <h3>Quality over volume, always</h3>
+      <p>We would rather curate fewer, better opportunities than flood the platform with everything available. This applies to deals, PMS, AIF, and every member of our community.</p>
+    </div>
+    <div class="believe-card">
+      <div class="believe-num">05</div>
+      <h3>Intelligence compounds over time</h3>
+      <p>Every signal, report, and data point CAPLORE AI processes makes the next insight sharper. Our research moat grows stronger the longer investors trust us.</p>
+    </div>
+    <div class="believe-card">
+      <div class="believe-num">06</div>
+      <h3>Long-term relationships over single transactions</h3>
+      <p>An investor who builds their entire portfolio on CAPLORE, across PMS, AIF, pre-IPO, and direct deals, is the outcome we are building for. Not a single deal. A relationship.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- VALUES -->
+<div class="values-bg">
+<div style="max-width:1200px;margin:0 auto;padding:0">
+  <div class="section-tag" style="background:rgba(96,165,250,0.15);color:#60A5FA">Our Values</div>
+  <h2 class="section-title">Five Values. Non-Negotiable.</h2>
+  <div class="values-grid">
+    <div class="val-card">
+      <div class="val-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      </div>
+      <h4>Trust</h4>
+      <p>Verified investors, vetted opportunities, institutional integrity at every layer.</p>
+    </div>
+    <div class="val-card">
+      <div class="val-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1v5m4 0H9"/></svg>
+      </div>
+      <h4>Governance</h4>
+      <p>We hold every opportunity to the same governance standard we expect for ourselves.</p>
+    </div>
+    <div class="val-card">
+      <div class="val-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+      </div>
+      <h4>Transparency</h4>
+      <p>We share what our research shows, acknowledge uncertainty, and never dress it up.</p>
+    </div>
+    <div class="val-card">
+      <div class="val-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      </div>
+      <h4>Intelligence</h4>
+      <p>AI-powered research that helps investors see further than financial statements alone.</p>
+    </div>
+    <div class="val-card">
+      <div class="val-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      </div>
+      <h4>Long-Term Value</h4>
+      <p>We build for investors who think in years and portfolios, not single transactions.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- HOW WE WORK -->
+<section class="section">
+  <div class="section-tag">How We Work</div>
+  <h2 class="section-title">A Complete Operating System,<br>Not a Single Product</h2>
+  <p class="section-sub">Most investors are forced to coordinate brokers, advisors, and platforms independently. CAPLORE brings the entire private capital journey under one roof.</p>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <div class="how-text">
+        <h3>Discover Exclusive Opportunities</h3>
+        <p>Private equity, pre-IPO, SME IPO, structured products, and growth capital deals, curated and screened before they ever reach an investor.</p>
+      </div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <div class="how-text">
+        <h3>Compare the Entire Marketplace</h3>
+        <p>Every major PMS and AIF in India, side by side, on performance, alpha, drawdown, fees, AUM, and historical XIRR.</p>
+      </div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <div class="how-text">
+        <h3>Research and AI Intelligence</h3>
+        <p>Institutional-quality research, DRHP intelligence, governance reports, and alternative data, converted into clear investment insight by CAPLORE AI.</p>
+      </div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">04</div>
+      <div class="how-text">
+        <h3>Manage Your Complete Portfolio</h3>
+        <p>Demat, private investments, AIF, PMS, mutual funds, gold, debt, and real estate, tracked in a single unified net worth view.</p>
+      </div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">05</div>
+      <div class="how-text">
+        <h3>Join a Verified Community</h3>
+        <p>Founder connect, co-investing, deal rooms, roundtables, and warm introductions, with people who actually move capital.</p>
+      </div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">06</div>
+      <div class="how-text">
+        <h3>Access Investor Services</h3>
+        <p>Compliance, accredited investor certification, tax structuring, family office setup, and a marketplace of merchant bankers and legal partners.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- THE CAPLORE DIFFERENCE -->
+<section class="section">
+  <div class="section-tag">The Caplore Difference</div>
+  <h2 class="section-title">What Makes Us Different</h2>
+  <p class="section-sub">We do not simply list investment opportunities. We help investors evaluate, manage, and act on them with institutional discipline.</p>
+  <div class="diff-grid">
+    <div class="diff-row">
+      <div class="diff-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="diff-text">
+        <h4>Research-first, not deal-first</h4>
+        <p>Every opportunity is backed by structured due diligence before it ever reaches an investor, no pressure, no rush, no blind exposure.</p>
+      </div>
+    </div>
+    <div class="diff-row">
+      <div class="diff-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="diff-text">
+        <h4>Built specifically for India's private markets</h4>
+        <p>Our frameworks are designed around the realities of Indian PMS, AIF, SME IPOs, and pre-IPO deals, not adapted from global playbooks.</p>
+      </div>
+    </div>
+    <div class="diff-row">
+      <div class="diff-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="diff-text">
+        <h4>AI intelligence, not just data</h4>
+        <p>We convert raw alternative data, GST collections, satellite imagery, commodity prices, into a clear, conversational investment view.</p>
+      </div>
+    </div>
+    <div class="diff-row">
+      <div class="diff-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="diff-text">
+        <h4>Seven pillars, one roof</h4>
+        <p>Invest, Marketplace, Research, Portfolio, Community, Investor Services, and CAPLORE AI. No fragmented handoffs between disconnected platforms.</p>
+      </div>
+    </div>
+    <div class="diff-row">
+      <div class="diff-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="diff-text">
+        <h4>Governance as a differentiator</h4>
+        <p>Every deal, fund, and company on the platform is scored on governance quality, not just historical returns.</p>
+      </div>
+    </div>
+    <div class="diff-row">
+      <div class="diff-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="diff-text">
+        <h4>A real community, not a contact list</h4>
+        <p>Founder connect, co-investing, and closed-door roundtables turn the platform into a relationship layer, not just a deal feed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="about-cta">
+  <h2>Ready to Operate at an Institutional Level?</h2>
+  <p>Whether you are an investor seeking exclusive opportunities, or a founder seeking the right capital, Caplore is your operating system.</p>
+  <div class="about-cta-btns">
+    <button class="btn-white" onclick="window.location.href='caplore.html'">Explore the Platform</button>
+    <button class="btn-white-outline">Become Premium</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">Cap<span>lore</span></div>
+      <div class="footer-tagline">Access Opportunities Before Everyone Else.</div>
+      <p>India's Private Capital Operating System, for investors, founders, and capital market professionals.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="caplore.html#ecosystem">Invest</a>
+      <a href="caplore.html#marketplace">Marketplace</a>
+      <a href="caplore.html#programme">Research & Intelligence</a>
+      <a href="caplore.html#partnerships">Community</a>
+      <a href="caplore.html#marketplace">CAPLORE+</a>
+    </div>
+    <div class="footer-col">
+      <h4>Tools</h4>
+      <a href="#">CAPLORE AI</a>
+      <a href="#">IPO Intelligence</a>
+      <a href="#">Portfolio Tracker</a>
+      <a href="#">Investor Services</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="caplore-about.html">About Us</a>
+      <a href="#">Become Premium</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 Caplore Consultancy Pvt. Ltd. All rights reserved.</div>
+    <div>India's Private Capital OS</div>
+  </div>
+</footer>
+
+</body>
+</html>
