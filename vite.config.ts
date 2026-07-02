@@ -8,8 +8,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "index.html",
-        caplore: "caplore.html",
         about: "about.html",
+        join: "join/index.html",
       },
     },
   },

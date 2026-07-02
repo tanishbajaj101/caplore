@@ -231,31 +231,6 @@
   .val-item h4 { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
   .val-item p { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
 
-  /* PREMIUM CTA */
-  .cta-section { background: var(--blue); padding: 64px 40px; }
-  .cta-section-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: center; }
-  .cta-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.72); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
-  .cta-eyebrow::before { content: ""; width: 20px; height: 1px; background: rgba(255,255,255,0.55); }
-  .cta-copy h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; color: #fff; letter-spacing: -1px; line-height: 1.12; margin-bottom: 16px; }
-  .cta-copy p { color: rgba(255,255,255,0.72); font-size: 15px; max-width: 440px; line-height: 1.7; }
-  .premium-form { background: #fff; border-radius: var(--r-xl); padding: 28px; box-shadow: 0 24px 48px rgba(10,15,30,0.18); display: grid; gap: 18px; }
-  .premium-form-group { display: grid; gap: 7px; }
-  .premium-form label { color: var(--text-primary); font-size: 12px; font-weight: 700; }
-  .premium-form input, .premium-form select { width: 100%; min-width: 0; height: 46px; border: 1px solid var(--border-strong); border-radius: 9px; background: #fff; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
-  .premium-form input { padding: 0 14px; }
-  .premium-form input::placeholder { color: var(--text-muted); }
-  .premium-form input:focus, .premium-form select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(30,94,255,0.12); }
-  .premium-form input:user-invalid { border-color: #DC2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
-  .premium-phone-field { display: grid; grid-template-columns: 92px 1fr; }
-  .premium-phone-field select { position: relative; z-index: 1; padding: 0 12px; border-radius: 9px 0 0 9px; background: var(--surface-2); font-weight: 600; cursor: pointer; }
-  .premium-phone-field input { margin-left: -1px; border-radius: 0 9px 9px 0; }
-  .premium-form-status { min-height: 20px; margin: 0; font-size: 13px; line-height: 1.5; }
-  .premium-form-status[data-state="success"] { color: #047857; }
-  .premium-form-status[data-state="error"] { color: #b91c1c; }
-  .premium-submit { height: 48px; border: none; border-radius: 9px; background: var(--blue); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.2s; }
-  .premium-submit:hover { background: #1a51e0; transform: translateY(-1px); }
-  .premium-submit:focus-visible { outline: 3px solid rgba(30,94,255,0.25); outline-offset: 2px; }
-
   /* TESTIMONIALS */
   .testimonials-wrap { padding: 56px 40px; max-width: 1200px; margin: 0 auto; }
   .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 40px; }
@@ -295,7 +270,7 @@
   </div>
   <div class="nav-actions">
     <button class="nav-btn ghost">Login</button>
-    <button class="nav-btn solid">Become Premium</button>
+    <button class="nav-btn solid" type="button" onclick="window.location.href='/join'">Become Premium</button>
   </div>
 </nav>
 
@@ -308,7 +283,7 @@
     <p class="hero-tagline">Access Opportunities Before Everyone Else.</p>
     <p>CAPLORE is India's integrated private capital ecosystem where investors access exclusive investment opportunities, institutional research, AI-powered intelligence, portfolio management, and a trusted network of founders, merchant bankers, and investment professionals.</p>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="document.getElementById('ecosystem').scrollIntoView({behavior:'smooth'})">Become Premium</button>
+      <button class="btn-primary" type="button" onclick="window.location.href='/join'">Become Premium</button>
       <button class="btn-outline" onclick="window.location.href='about.html'">Explore Platform</button>
     </div>
     <div class="hero-trust">
@@ -791,42 +766,6 @@
   </div>
 </div>
 
-<!-- CTA -->
-<section class="cta-section" aria-labelledby="premium-cta-title">
-  <div class="cta-section-inner">
-    <div class="cta-copy">
-      <span class="cta-eyebrow">Caplore Premium</span>
-      <h2 id="premium-cta-title">Ready to Operate at an Institutional Level?</h2>
-      <p>Whether you are an investor seeking exclusive opportunities, or a founder seeking the right capital, Caplore is your operating system.</p>
-    </div>
-    <form class="premium-form" action="https://caplore-backend-production.up.railway.app/api/submissions" method="post">
-      <div class="premium-form-group">
-        <label for="premium-name">Name</label>
-        <input id="premium-name" name="name" type="text" placeholder="Enter your full name" autocomplete="name" minlength="2" maxlength="80" pattern=".*\S.*" title="Please enter your name." required>
-      </div>
-      <div class="premium-form-group">
-        <label for="premium-email">Email</label>
-        <input id="premium-email" name="email" type="email" placeholder="Enter your email address" autocomplete="email" maxlength="120" required>
-      </div>
-      <div class="premium-form-group">
-        <label for="premium-phone">Phone Number</label>
-        <div class="premium-phone-field">
-          <select name="country-code" aria-label="Country code" required>
-            <option value="+91" selected>+91</option>
-            <option value="+1">+1</option>
-            <option value="+44">+44</option>
-            <option value="+65">+65</option>
-            <option value="+971">+971</option>
-          </select>
-          <input id="premium-phone" name="phone" type="tel" placeholder="Enter your phone number" autocomplete="tel-national" inputmode="numeric" minlength="7" maxlength="15" pattern="[0-9]{7,15}" title="Enter 7 to 15 digits without spaces." required>
-        </div>
-      </div>
-      <button class="premium-submit" type="submit">Become Premium</button>
-      <p class="premium-form-status" role="status" aria-live="polite"></p>
-    </form>
-  </div>
-</section>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -854,7 +793,7 @@
       <div class="footer-col">
         <h4>Company</h4>
         <a href="about.html">About Us</a>
-        <a href="#">Become Premium</a>
+        <a href="/join">Become Premium</a>
         <a href="#">Privacy Policy</a>
       </div>
     </div>

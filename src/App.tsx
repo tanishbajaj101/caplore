@@ -15,7 +15,7 @@ const journeyBlock =
 const insightsBlock =
   /<!-- AI INTELLIGENCE PROGRAMME[\s\S]*?<\/section>/;
 const testimonialsBlock =
-  /<!-- TESTIMONIALS -->[\s\S]*?(?=<!-- CTA -->)/;
+  /<!-- TESTIMONIALS -->[\s\S]*?(?=<!-- FOOTER -->)/;
 
 function parseLegacyPage(html: string) {
   const styles = html.match(/<style>([\s\S]*?)<\/style>/i)?.[1] ?? "";
@@ -178,7 +178,6 @@ function usePremiumForm() {
 export default function App() {
   const page = useMemo(() => parseLegacyPage(sourceHtml), []);
   usePhonePreview();
-  usePremiumForm();
 
   return (
     <>
