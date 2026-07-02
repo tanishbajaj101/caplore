@@ -187,6 +187,7 @@ export default function App() {
         className="legacy-page-fragment"
         dangerouslySetInnerHTML={{ __html: page.beforeJourney }}
       />
+      <hr className="divider" />
       <IpoLifecycleMotion />
       <div
         className="legacy-page-fragment"

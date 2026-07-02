@@ -448,8 +448,8 @@ export default function IpoLifecycleMotion() {
       className="section ipo-lifecycle-section relative text-slate-900"
       style={{
         '--pipeline-accent': '#1e5eff',
-        paddingTop: '40px',
-        paddingBottom: '160px',
+        paddingTop: '48px',
+        paddingBottom: '48px',
       } as CSSProperties}
     >
       <div className="w-full">
