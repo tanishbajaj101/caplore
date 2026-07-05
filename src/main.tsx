@@ -6,7 +6,25 @@ const route = window.location.pathname.replace(/\/+$/, "") || "/";
 async function renderRoute() {
   let Page: ComponentType;
 
+  if (
+    (route === "/" || route === "/login") &&
+    localStorage.getItem("caplore_auth")
+  ) {
+    window.location.replace("/dashboard");
+    return;
+  }
+
   if (route === "/dashboard") {
+    const [{ default: DashboardHomeApp }] = await Promise.all([
+      import("./DashboardHomeApp"),
+      import("./dashboard-home.css"),
+    ]);
+    Page = DashboardHomeApp;
+    document.title = "Dashboard · Caplore";
+  } else if (
+    route === "/deal-room/abc-engineering" ||
+    route === "/opportunities"
+  ) {
     const [{ default: DashboardApp }] = await Promise.all([
       import("./DashboardApp"),
       import("./dashboard.css"),
@@ -27,13 +45,6 @@ async function renderRoute() {
     ]);
     Page = LoginApp;
     document.title = "Log In · Caplore";
-  } else if (route === "/" && localStorage.getItem("caplore_auth")) {
-    const [{ default: HomeApp }] = await Promise.all([
-      import("./HomeApp"),
-      import("./home.css"),
-    ]);
-    Page = HomeApp;
-    document.title = "Home · Caplore";
   } else {
     const [{ default: App }] = await Promise.all([
       import("./App"),

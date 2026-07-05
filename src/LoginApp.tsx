@@ -51,7 +51,7 @@ export default function LoginApp() {
       }
 
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(result.user));
-      window.location.assign("/");
+      window.location.assign("/dashboard");
     } catch (error) {
       setStatus({
         state: "error",
