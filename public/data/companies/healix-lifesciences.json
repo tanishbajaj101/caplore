@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "slug": "healix-lifesciences",
+    "initials": "HL",
+    "name": "Healix Lifesciences",
+    "sector": "Healthcare",
+    "location": "India",
+    "established": "—",
+    "opportunityType": "Pre-IPO",
+    "tagTone": "blue",
+    "art": "✚",
+    "targetRaise": "₹150 Cr",
+    "minimumTicket": "₹30 L",
+    "timeline": "12–18 Mo",
+    "score": 88,
+    "risk": "Low",
+    "color": "#0ba272",
+    "teaser": "Pre-IPO opportunity in the healthcare and life-sciences sector."
+  },
+  "hero": {
+    "description": "Healix Lifesciences is a healthcare pre-IPO opportunity. Detailed diligence content will be added when source data is available.",
+    "closeDate": "To be announced",
+    "stats": [
+      { "label": "Target Raise", "value": "₹150 Cr" },
+      { "label": "Minimum Ticket", "value": "₹30 L" },
+      { "label": "CAPLORE Score", "value": "88/100", "emphasis": "positive" },
+      { "label": "Expected Timeline", "value": "12–18 Mo", "emphasis": "warning" }
+    ]
+  },
+  "overview": {
+    "facts": [
+      { "label": "Sector", "value": "Healthcare" },
+      { "label": "Opportunity Type", "value": "Pre-IPO", "highlight": true },
+      { "label": "Target Raise", "value": "₹150 Cr" },
+      { "label": "Minimum Ticket", "value": "₹30 L" }
+    ],
+    "about": "Detailed company overview pending. Add verified company information to this JSON file when it becomes available.",
+    "scoreLabel": "Strong preliminary score",
+    "scores": [],
+    "investmentView": {
+      "sentiment": "Pending",
+      "summary": "CAPLORE investment analysis has not yet been added for this opportunity.",
+      "observations": []
+    }
+  }
+}

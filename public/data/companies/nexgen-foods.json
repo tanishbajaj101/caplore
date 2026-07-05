@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "slug": "nexgen-foods",
+    "initials": "NF",
+    "name": "Nex.Gen Foods Ltd.",
+    "sector": "FMCG",
+    "location": "India",
+    "established": "—",
+    "opportunityType": "Pre-IPO",
+    "tagTone": "blue",
+    "art": "◇",
+    "targetRaise": "₹60 Cr",
+    "minimumTicket": "₹20 L",
+    "timeline": "18–24 Mo",
+    "score": 80,
+    "risk": "Moderate",
+    "color": "#e25858",
+    "teaser": "Pre-IPO opportunity in the fast-moving consumer goods sector."
+  },
+  "hero": {
+    "description": "Nex.Gen Foods Ltd. is an FMCG pre-IPO opportunity. Detailed diligence content will be added when source data is available.",
+    "closeDate": "To be announced",
+    "stats": [
+      { "label": "Target Raise", "value": "₹60 Cr" },
+      { "label": "Minimum Ticket", "value": "₹20 L" },
+      { "label": "CAPLORE Score", "value": "80/100", "emphasis": "positive" },
+      { "label": "Expected Timeline", "value": "18–24 Mo", "emphasis": "warning" }
+    ]
+  },
+  "overview": {
+    "facts": [
+      { "label": "Sector", "value": "FMCG" },
+      { "label": "Opportunity Type", "value": "Pre-IPO", "highlight": true },
+      { "label": "Target Raise", "value": "₹60 Cr" },
+      { "label": "Minimum Ticket", "value": "₹20 L" }
+    ],
+    "about": "Detailed company overview pending. Add verified company information to this JSON file when it becomes available.",
+    "scoreLabel": "Under review",
+    "scores": [],
+    "investmentView": {
+      "sentiment": "Pending",
+      "summary": "CAPLORE investment analysis has not yet been added for this opportunity.",
+      "observations": []
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "slug": "solvex-industries",
+    "initials": "SI",
+    "name": "Solvex Industries",
+    "sector": "Specialty Chemicals",
+    "location": "India",
+    "established": "—",
+    "opportunityType": "Private Placement",
+    "tagTone": "amber",
+    "art": "◌",
+    "targetRaise": "₹50 Cr",
+    "minimumTicket": "₹15 L",
+    "timeline": "30+ Mo",
+    "score": 72,
+    "risk": "Moderate",
+    "color": "#7357dc",
+    "teaser": "Private-placement opportunity in specialty chemicals."
+  },
+  "hero": {
+    "description": "Solvex Industries is a specialty-chemicals private-placement opportunity. Detailed diligence content will be added when source data is available.",
+    "closeDate": "To be announced",
+    "stats": [
+      { "label": "Target Raise", "value": "₹50 Cr" },
+      { "label": "Minimum Ticket", "value": "₹15 L" },
+      { "label": "CAPLORE Score", "value": "72/100", "emphasis": "positive" },
+      { "label": "Expected Timeline", "value": "30+ Mo", "emphasis": "warning" }
+    ]
+  },
+  "overview": {
+    "facts": [
+      { "label": "Sector", "value": "Specialty Chemicals" },
+      { "label": "Opportunity Type", "value": "Private Placement", "highlight": true },
+      { "label": "Target Raise", "value": "₹50 Cr" },
+      { "label": "Minimum Ticket", "value": "₹15 L" }
+    ],
+    "about": "Detailed company overview pending. Add verified company information to this JSON file when it becomes available.",
+    "scoreLabel": "Under review",
+    "scores": [],
+    "investmentView": {
+      "sentiment": "Pending",
+      "summary": "CAPLORE investment analysis has not yet been added for this opportunity.",
+      "observations": []
+    }
+  }
+}

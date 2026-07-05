@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap");
-
+/* Shared template styles for JSON-backed company pages. */
 :root {
   --font-sans: "Inter", Arial, sans-serif;
   --font-display: "Manrope", "Inter", Arial, sans-serif;
@@ -38,7 +37,7 @@ button {
   border: 0;
 }
 
-.dealroom-app {
+.company-app {
   --navy: #0a0f1e;
   --blue: #1e5eff;
   --blue-light: #eef3ff;
@@ -67,169 +66,9 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
-.app-sidebar {
-  position: fixed;
-  inset: 0 auto 0 0;
-  z-index: 200;
-  display: flex;
-  width: 216px;
-  height: 100vh;
-  flex-direction: column;
-  overflow-y: auto;
-  color: #fff;
-  background:
-    radial-gradient(circle at 0 15%, rgba(30, 94, 255, 0.14), transparent 34%),
-    var(--navy);
-  scrollbar-width: none;
-}
-
-.app-sidebar::-webkit-scrollbar {
-  display: none;
-}
-
-.brand-block {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 18px 16px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-
-.brand-mark {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  flex: 0 0 30px;
-  place-items: center;
-  border-radius: 8px;
-  background: var(--blue);
-  font-size: 19.5px;
-  font-weight: 800;
-}
-
-.brand-block strong,
-.brand-block span {
-  display: block;
-}
-
-.brand-block strong {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.2px;
-}
-
-.brand-block span {
-  margin-top: -1px;
-  color: rgba(255, 255, 255, 0.43);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1.25px;
-  text-transform: uppercase;
-}
-
-.sidebar-nav {
-  flex: 1;
-  padding: 11px 10px 10px;
-}
-
-.nav-group > p {
-  margin: 10px 10px 5px;
-  color: rgba(255, 255, 255, 0.34);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
-
-.nav-item {
-  display: flex;
-  width: 100%;
-  min-height: 35px;
-  align-items: center;
-  gap: 9px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  color: rgba(255, 255, 255, 0.66);
-  background: transparent;
-  cursor: default;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: left;
-  transition: 140ms ease;
-}
-
-.nav-item:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.nav-item.active {
-  color: #fff;
-  background: var(--blue);
-  box-shadow: 0 6px 18px rgba(30, 94, 255, 0.2);
-}
-
-.nav-item span {
-  min-width: 0;
-  flex: 1;
-}
-
-.nav-item b {
-  min-width: 23px;
-  padding: 1px 6px;
-  border-radius: 99px;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.14);
-  font-size: 10.5px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.nav-item b.new {
-  color: #6ee7b7;
-  background: rgba(5, 150, 105, 0.16);
-}
-
-.nav-separator {
-  height: 1px;
-  margin: 10px 8px 0;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.referral-card {
-  margin: 0 11px 12px;
-  padding: 13px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.045);
-}
-
-.referral-card strong {
-  font-size: 13.5px;
-}
-
-.referral-card p {
-  margin: 3px 0 10px;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 11px;
-}
-
-.referral-card button {
-  width: 100%;
-  padding: 7px 10px;
-  border-radius: 8px;
-  color: #fff;
-  background: var(--blue);
-  cursor: default;
-  font-size: 12px;
-  font-weight: 700;
-}
-
 .main-shell {
   display: flex;
-  width: calc(100% - 216px);
   height: 100vh;
-  margin-left: 216px;
   flex-direction: column;
   overflow: hidden;
 }
@@ -237,11 +76,12 @@ input:focus-visible {
 .topbar {
   z-index: 20;
   display: flex;
-  height: 54px;
-  flex: 0 0 54px;
+  height: var(--app-topbar-height);
+  flex: 0 0 var(--app-topbar-height);
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  gap: var(--app-topbar-gap);
+  padding: 0 var(--app-topbar-padding);
   border-bottom: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.96);
 }
@@ -249,11 +89,21 @@ input:focus-visible {
 .breadcrumbs {
   display: flex;
   min-width: 0;
+  flex: 1;
   align-items: center;
   gap: 9px;
   color: var(--text-muted);
   font-size: 13px;
   white-space: nowrap;
+}
+
+.breadcrumbs a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+  color: var(--blue);
 }
 
 .breadcrumbs i {
@@ -271,18 +121,18 @@ input:focus-visible {
 .topbar-actions {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 9px;
 }
 
 .topbar-actions > button {
   position: relative;
   display: grid;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
+  width: var(--app-topbar-control-size);
+  height: var(--app-topbar-control-size);
+  flex: 0 0 var(--app-topbar-control-size);
   place-items: center;
   border: 1px solid var(--border);
-  border-radius: 9px;
+  border-radius: 12px;
   color: var(--text-secondary);
   background: #fff;
   cursor: default;
@@ -311,22 +161,22 @@ input:focus-visible {
 .topbar-actions > .user-chip {
   display: flex;
   width: auto;
-  min-width: 148px;
-  padding: 3px 8px 3px 4px;
-  gap: 7px;
+  min-width: 165px;
+  padding: 4px 11px 4px 4px;
+  gap: 9px;
   text-align: left;
 }
 
 .user-chip > span {
   display: grid;
-  width: 27px;
-  height: 27px;
-  flex: 0 0 27px;
+  width: var(--app-topbar-avatar-size);
+  height: var(--app-topbar-avatar-size);
+  flex: 0 0 var(--app-topbar-avatar-size);
   place-items: center;
-  border-radius: 7px;
+  border-radius: 50%;
   color: #fff;
   background: var(--purple);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 800;
 }
 
@@ -342,14 +192,14 @@ input:focus-visible {
 
 .user-chip strong {
   color: var(--navy);
-  font-size: 12px;
+  font-size: var(--app-topbar-profile-name-size);
   line-height: 1.2;
 }
 
 .user-chip small {
   margin-top: 2px;
   color: var(--text-muted);
-  font-size: 9.5px;
+  font-size: var(--app-topbar-profile-meta-size);
   line-height: 1;
 }
 
@@ -662,6 +512,53 @@ input:focus-visible {
   display: grid;
   min-width: 0;
   gap: 14px;
+}
+
+.company-data-pending {
+  display: grid;
+  min-height: 150px;
+  place-content: center;
+  padding: 24px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.company-data-pending strong {
+  color: var(--navy);
+}
+
+.company-data-pending p {
+  max-width: 420px;
+  margin: 6px auto 0;
+  line-height: 1.6;
+}
+
+.company-data-pending.compact {
+  min-height: 100px;
+}
+
+.company-load-state {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  padding: 24px;
+  color: #667085;
+  background: #f6f8fc;
+  text-align: center;
+}
+
+.company-load-state h1 {
+  margin: 0 0 8px;
+  color: #0a0f1e;
+}
+
+.company-load-state p {
+  margin: 0 0 16px;
+}
+
+.company-load-state a {
+  color: #1e5eff;
+  font-weight: 700;
 }
 
 .deal-panel {
@@ -1680,12 +1577,11 @@ table .highlight-row th {
 }
 
 /* Typography system */
-.dealroom-app {
+.company-app {
   font-family: var(--font-sans);
   letter-spacing: -0.006em;
 }
 
-.brand-block strong,
 .company-heading h1,
 .hero-investment-box strong,
 .hero-stats strong,
@@ -1707,14 +1603,12 @@ table .highlight-row th {
   letter-spacing: -0.025em;
 }
 
-.nav-item,
 .deal-tabs button,
 .hero-investment-box button,
 .watchlist-button,
 .primary-action,
 .secondary-action,
-.document-row button,
-.referral-card button {
+.document-row button {
   font-family: var(--font-display);
   letter-spacing: -0.012em;
 }
@@ -1733,8 +1627,6 @@ table .highlight-row th {
   letter-spacing: 0;
 }
 
-.brand-block span,
-.nav-group > p,
 .hero-investment-box > span,
 .hero-stats span,
 .fact-item > span,
@@ -1812,33 +1704,15 @@ table tbody td {
     overflow: auto;
   }
 
-  .dealroom-app {
+  .company-app {
     display: block;
     height: auto;
     min-height: 100%;
   }
 
-  .app-sidebar {
-    position: static;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-
-  .brand-block {
-    border-bottom: 0;
-  }
-
-  .sidebar-nav,
-  .referral-card {
-    display: none;
-  }
-
   .main-shell {
-    width: 100%;
     height: auto;
     min-height: calc(100vh - 63px);
-    margin-left: 0;
     overflow: visible;
   }
 
@@ -1880,8 +1754,8 @@ table tbody td {
 
 @media (max-width: 560px) {
   .topbar-actions > .user-chip {
-    min-width: 34px;
-    width: 34px;
+    min-width: var(--app-topbar-control-size);
+    width: var(--app-topbar-control-size);
     padding: 3px;
   }
 

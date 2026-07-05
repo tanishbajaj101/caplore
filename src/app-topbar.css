@@ -1,0 +1,9 @@
+:root {
+  --app-topbar-height: 68px;
+  --app-topbar-padding: 24px;
+  --app-topbar-gap: 14px;
+  --app-topbar-control-size: 42px;
+  --app-topbar-avatar-size: 34px;
+  --app-topbar-profile-name-size: 14px;
+  --app-topbar-profile-meta-size: 11.5px;
+}

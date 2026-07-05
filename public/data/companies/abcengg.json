@@ -1,0 +1,194 @@
+{
+  "summary": {
+    "slug": "abcengg",
+    "initials": "AB",
+    "name": "ABC Engineering Ltd.",
+    "sector": "Industrial Machinery",
+    "location": "Pune, Maharashtra",
+    "established": "2008",
+    "opportunityType": "Pre-IPO",
+    "tagTone": "blue",
+    "art": "⚙",
+    "targetRaise": "₹120 Cr",
+    "minimumTicket": "₹25 L",
+    "timeline": "24–30 Mo",
+    "score": 85,
+    "risk": "Moderate",
+    "color": "#6479ec",
+    "teaser": "Leading manufacturer of precision engineering components for aerospace, defence, and automotive OEMs."
+  },
+  "hero": {
+    "description": "Leading manufacturer of precision engineering components for aerospace, defence, and automotive OEMs. Strong export revenues, consistent EBITDA margins, and an NSE Emerge listing on track within 24–30 months.",
+    "closeDate": "30 Jun 2025",
+    "stats": [
+      { "label": "Revenue (FY24)", "value": "₹218 Cr" },
+      { "label": "EBITDA Margin", "value": "18.4%", "emphasis": "positive" },
+      { "label": "Revenue CAGR (3Y)", "value": "27.2%", "emphasis": "positive" },
+      { "label": "Debt / Equity", "value": "0.38x" },
+      { "label": "Pre-Money Valuation", "value": "₹480 Cr" },
+      { "label": "Expected IPO", "value": "24–30 Mo", "emphasis": "warning" }
+    ]
+  },
+  "overview": {
+    "facts": [
+      { "label": "Company Type", "value": "Private Limited" },
+      { "label": "Incorporation Year", "value": "2008" },
+      { "label": "Headquarters", "value": "Pune, Maharashtra" },
+      { "label": "Employees", "value": "1,240+" },
+      { "label": "Key Clients", "value": "Tata, L&T, BEL, HAL", "highlight": true },
+      { "label": "Export Revenue", "value": "34% of Revenue", "support": "US, Germany, Japan" },
+      { "label": "Manufacturing Plants", "value": "3 Facilities", "support": "Pune, Nashik, Hosur" },
+      { "label": "Certifications", "value": "AS9100D, IATF 16949" }
+    ],
+    "about": "ABC Engineering Ltd. is a precision engineering manufacturer supplying mission-critical components to India's aerospace, defence, and automotive industries. Founded in 2008 by Ramesh Agarwal, the company has scaled from a single plant in Pune to three facilities with 1,240+ employees and ₹218 Cr in annual revenue. The company holds long-term supply agreements with marquee OEMs and has consistently grown EBITDA margins above 18% over the last three years. With a clean balance sheet (D/E of 0.38x) and structured governance, ABC Engineering is targeting an NSE Emerge listing within 24–30 months.",
+    "scoreLabel": "Strong opportunity",
+    "scores": [
+      { "label": "Financial Health", "score": 90, "color": "green" },
+      { "label": "Governance Quality", "score": 82, "color": "blue" },
+      { "label": "Management Credibility", "score": 88, "color": "green" },
+      { "label": "Market Opportunity", "score": 85, "color": "blue" },
+      { "label": "Scalability", "score": 80, "color": "blue" },
+      { "label": "IPO Readiness", "score": 75, "color": "amber" }
+    ],
+    "investmentView": {
+      "sentiment": "Positive",
+      "summary": "ABC Engineering is one of the stronger pre-IPO candidates on the platform. The combination of sticky OEM relationships, export diversification, and consistent EBITDA expansion creates a defensible growth story with limited customer concentration risk.",
+      "observations": [
+        "Revenue visibility is high because BEL and HAL supply agreements cover more than 40% of the forward order book.",
+        "Governance has improved since FY22 through independent directors, an active audit committee, and audited related-party disclosures.",
+        "The key stated risk is promoter dilution from 72% to approximately 55% after the IPO, requiring careful investor communication."
+      ]
+    }
+  },
+  "financials": {
+    "incomeStatement": {
+      "title": "Income Statement",
+      "meta": "₹ Crore",
+      "headers": ["Metric", "FY21", "FY22", "FY23", "FY24"],
+      "rows": [
+        ["Revenue", "108.2", "138.6", "174.4", "218.0"],
+        ["YoY Growth", "—", "28.1% ↑", "25.8% ↑", "25.0% ↑"],
+        ["Gross Profit", "38.2", "50.4", "64.0", "81.6"],
+        ["Gross Margin", "35.3%", "36.4%", "36.7%", "37.4%"],
+        ["EBITDA", "16.8", "22.4", "30.6", "40.1"],
+        ["EBITDA Margin", "15.5%", "16.2%", "17.5%", "18.4%"],
+        ["PAT", "8.4", "11.8", "17.2", "23.6"],
+        ["PAT Margin", "7.8%", "8.5%", "9.9%", "10.8%"]
+      ],
+      "highlight": "EBITDA",
+      "growth": "YoY Growth"
+    },
+    "balanceSheet": {
+      "title": "Balance Sheet Snapshot",
+      "meta": "₹ Crore",
+      "headers": ["Metric", "FY22", "FY23", "FY24"],
+      "rows": [
+        ["Total Assets", "86.2", "112.4", "148.6"],
+        ["Total Equity", "48.4", "62.8", "84.0"],
+        ["Total Debt", "24.0", "28.4", "31.8"],
+        ["Debt / Equity", "0.50x", "0.45x", "0.38x"],
+        ["Working Capital Days", "68", "62", "58"],
+        ["Cash & Equivalents", "6.2", "9.8", "14.4"]
+      ],
+      "highlight": "Debt / Equity"
+    }
+  },
+  "ownership": {
+    "meta": "Current ownership · 100%",
+    "holders": [
+      { "initials": "RA", "name": "Ramesh Agarwal", "role": "Founder & Managing Director · 22 years in precision engineering", "holding": "52.4%", "color": "blue" },
+      { "initials": "SA", "name": "Sunita Agarwal", "role": "Co-Promoter · Director — Operations", "holding": "19.6%", "color": "purple" },
+      { "initials": "VE", "name": "Vertex Equity Partners", "role": "Series A Investor (2019) · Exiting via IPO", "holding": "14.2%", "color": "green" },
+      { "initials": "ES", "name": "Employee ESOP Pool", "role": "Vested & Unvested — Management incentive", "holding": "5.8%", "holdingLabel": "Pool", "color": "amber" },
+      { "initials": "PI", "name": "Public / Pre-IPO Investors", "role": "This raise + existing angel holders", "holding": "8.0%", "color": "navy" }
+    ]
+  },
+  "analysis": {
+    "risks": [
+      { "title": "Customer Concentration", "level": "Medium", "description": "BEL, HAL, and Tata Motors contribute approximately 52% of revenue; losing one could materially affect revenue." },
+      { "title": "IPO Timeline Slippage", "level": "Medium", "description": "Regulatory delays, market conditions, or governance gaps could delay the targeted 24–30 month listing window." },
+      { "title": "Liquidity Risk", "level": "High", "description": "The pre-IPO position is illiquid and depends on listing for exit; the internal secondary desk may provide partial liquidity in Year 2." },
+      { "title": "Raw Material Volatility", "level": "Low", "description": "Steel and aluminium costs affect margin, partially mitigated by OEM pass-through clauses." }
+    ],
+    "strengths": [
+      { "title": "Sticky OEM Relationships", "description": "Multi-year BEL, HAL, and Tata supply agreements provide revenue visibility and pricing power." },
+      { "title": "Export Diversification", "description": "34% of revenue comes from the US, Germany, and Japan." },
+      { "title": "Improving Balance Sheet", "description": "Debt/equity declined from 0.50x to 0.38x over three years, with strong cash generation." },
+      { "title": "Governance Improvements", "description": "Independent directors, an audit committee, and a structured ESOP support IPO readiness." }
+    ]
+  },
+  "comparables": {
+    "table": {
+      "title": "Listed Peer Comparison",
+      "meta": "FY24 data · ₹ Crore",
+      "headers": ["Company", "Revenue", "EBITDA %", "P/E", "EV/EBITDA", "Market Cap"],
+      "rows": [
+        ["ABC Engineering (Pre-IPO)", "218", "18.4%", "~20x est.", "~12x est.", "480 (Pre-Money)"],
+        ["Minda Industries", "4,840", "14.2%", "38x", "22x", "18,200"],
+        ["Craftsman Automation", "3,420", "19.6%", "28x", "16x", "8,600"],
+        ["Precision Camshafts", "810", "17.8%", "24x", "14x", "1,940"],
+        ["Ramkrishna Forgings", "2,640", "20.1%", "22x", "13x", "5,800"]
+      ],
+      "highlight": "ABC Engineering (Pre-IPO)"
+    },
+    "valuation": {
+      "eyebrow": "ABC ENGINEERING VALUATION",
+      "title": "Priced at a considered discount to listed peers",
+      "description": "At a ₹480 Cr pre-money valuation and ₹218 Cr revenue, ABC Engineering trades below listed peers at 14–22x EV/EBITDA. This discount typically compresses as the business approaches listing.",
+      "metrics": [
+        { "value": "2.2x", "label": "Revenue" },
+        { "value": "12x", "label": "EV / EBITDA" }
+      ]
+    }
+  },
+  "documents": {
+    "accessLabel": "NDA Signed · Access Granted",
+    "items": [
+      { "title": "Investment Teaser — ABC Engineering Ltd.", "detail": "PDF · 2.4 MB", "locked": false },
+      { "title": "Audited Financials FY22, FY23, FY24", "detail": "PDF · 8.1 MB", "locked": false },
+      { "title": "Investor Pitch Deck (June 2025)", "detail": "PDF · 4.8 MB", "locked": false },
+      { "title": "Draft DRHP — Restricted Access", "detail": "Pending · Available after expression of interest", "locked": true },
+      { "title": "Legal Due Diligence Report", "detail": "Locked · Available post verification", "locked": true }
+    ]
+  },
+  "timeline": {
+    "meta": "Target listing · Apr 2026",
+    "milestones": [
+      { "title": "Governance Setup Complete", "state": "done", "date": "Dec 2023" },
+      { "title": "Statutory Audit (FY24) Filed", "state": "done", "date": "May 2024" },
+      { "title": "Merchant Banker Appointed", "state": "done", "date": "Mar 2025" },
+      { "title": "Pre-IPO Fundraise (Current Round)", "state": "current", "date": "Closes Jun 2025" },
+      { "title": "DRHP Filing with SEBI", "state": "upcoming", "date": "Sep 2025" },
+      { "title": "SEBI Observations Received", "state": "upcoming", "date": "Dec 2025" },
+      { "title": "Roadshow & Anchor Booking", "state": "upcoming", "date": "Mar 2026" },
+      { "title": "NSE Emerge Listing", "state": "upcoming", "date": "Apr 2026" }
+    ]
+  },
+  "investment": {
+    "amountDefault": "25,00,000",
+    "minimumNote": "Minimum ₹25 Lakh · Closes 30 Jun 2025",
+    "investorInitials": ["A", "R", "K", "M"],
+    "interestedInvestors": 28,
+    "details": [
+      { "label": "Deal Type", "value": "Pre-IPO Equity", "highlight": true },
+      { "label": "Target Raise", "value": "₹120 Crore" },
+      { "label": "Min. Ticket", "value": "₹25 Lakh" },
+      { "label": "Pre-Money Valuation", "value": "₹480 Crore" },
+      { "label": "Instrument", "value": "Compulsory Convertible Debentures (CCD)" },
+      { "label": "Conversion", "value": "Auto-converts at IPO" },
+      { "label": "Expected IPO", "value": "NSE Emerge · Apr 2026" },
+      { "label": "Lock-In Period", "value": "6 months post-listing" },
+      { "label": "Close Date", "value": "30 June 2025" },
+      { "label": "Merchant Banker", "value": "SBI Capital Markets", "highlight": true }
+    ],
+    "raiseProgress": {
+      "raised": "₹74 Cr",
+      "target": "₹120 Cr",
+      "percent": 62,
+      "remaining": "₹46 Cr remaining",
+      "investors": "28",
+      "daysLeft": "12",
+      "averageTicket": "₹2.6 Cr"
+    }
+  }
+}

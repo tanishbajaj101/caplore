@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap");
+
+.app-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 200;
+  display: flex;
+  width: 216px;
+  height: 100vh;
+  flex-direction: column;
+  overflow-y: auto;
+  color: #fff;
+  font-family: "Inter", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 0 15%, rgba(30, 94, 255, 0.14), transparent 34%),
+    #0a0f1e;
+  scrollbar-width: none;
+  transition: transform 180ms ease;
+}
+
+.app-sidebar::-webkit-scrollbar { display: none; }
+.sidebar-closed .app-sidebar { transform: translateX(-100%); }
+
+.app-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-sidebar-mark {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  place-items: center;
+  border-radius: 8px;
+  background: #1e5eff;
+  font-size: 19.5px;
+  font-weight: 800;
+}
+
+.app-sidebar-brand > span:last-child,
+.app-sidebar-brand strong,
+.app-sidebar-brand small { display: block; }
+.app-sidebar-brand strong {
+  font-family: "Manrope", "Inter", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+.app-sidebar-brand small {
+  margin-top: -1px;
+  color: rgba(255, 255, 255, 0.43);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+
+.app-sidebar-nav { flex: 1; padding: 11px 10px 10px; }
+.app-sidebar-group > p {
+  margin: 10px 10px 5px;
+  color: rgba(255, 255, 255, 0.34);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.app-sidebar-item {
+  display: flex;
+  width: 100%;
+  min-height: 35px;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.66);
+  background: transparent;
+  font-family: "Manrope", "Inter", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 140ms ease;
+}
+.app-sidebar-item:hover { color: #fff; background: rgba(255, 255, 255, 0.06); }
+.app-sidebar-item.active {
+  color: #fff;
+  background: #1e5eff;
+  box-shadow: 0 6px 18px rgba(30, 94, 255, 0.2);
+}
+.app-sidebar-item > span { min-width: 0; flex: 1; }
+.app-sidebar-item b {
+  min-width: 23px;
+  padding: 1px 6px;
+  border-radius: 99px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-align: center;
+}
+.app-sidebar-item b.new { color: #6ee7b7; background: rgba(5, 150, 105, 0.16); }
+.app-sidebar-separator {
+  height: 1px;
+  margin: 10px 8px 0;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.app-page-shell {
+  width: calc(100% - 216px);
+  margin-left: 216px;
+  transition: width 180ms ease, margin-left 180ms ease;
+}
+.sidebar-closed .app-page-shell { width: 100%; margin-left: 0; }
+
+.app-sidebar-toggle {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  color: #4b5563;
+  background: #fff;
+  cursor: pointer;
+}
+.app-sidebar-toggle:hover { color: #1e5eff; background: #f9fafb; }
+.app-sidebar-toggle:focus-visible { outline: 3px solid rgba(30, 94, 255, 0.22); outline-offset: 2px; }
+.app-sidebar-backdrop { display: none; }
+
+@media (max-width: 900px) {
+  .app-page-shell,
+  .sidebar-closed .app-page-shell { width: 100%; margin-left: 0; }
+  .sidebar-open .app-sidebar { transform: translateX(0); }
+  .sidebar-closed .app-sidebar { transform: translateX(-100%); }
+  .sidebar-open .app-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    display: block;
+    border: 0;
+    background: rgba(10, 15, 30, 0.45);
+    cursor: pointer;
+  }
+}

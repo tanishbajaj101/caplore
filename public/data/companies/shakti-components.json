@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "slug": "shakti-components",
+    "initials": "SC",
+    "name": "Shakti Components",
+    "sector": "Auto Ancillary",
+    "location": "India",
+    "established": "—",
+    "opportunityType": "Growth Capital",
+    "tagTone": "green",
+    "art": "◆",
+    "targetRaise": "₹75 Cr",
+    "minimumTicket": "₹20 L",
+    "timeline": "24–30 Mo",
+    "score": 78,
+    "risk": "Moderate",
+    "color": "#e7a21a",
+    "teaser": "Growth-capital opportunity in the automotive components sector."
+  },
+  "hero": {
+    "description": "Shakti Components is an automotive ancillary growth-capital opportunity. Detailed diligence content will be added when source data is available.",
+    "closeDate": "To be announced",
+    "stats": [
+      { "label": "Target Raise", "value": "₹75 Cr" },
+      { "label": "Minimum Ticket", "value": "₹20 L" },
+      { "label": "CAPLORE Score", "value": "78/100", "emphasis": "positive" },
+      { "label": "Expected Timeline", "value": "24–30 Mo", "emphasis": "warning" }
+    ]
+  },
+  "overview": {
+    "facts": [
+      { "label": "Sector", "value": "Auto Ancillary" },
+      { "label": "Opportunity Type", "value": "Growth Capital", "highlight": true },
+      { "label": "Target Raise", "value": "₹75 Cr" },
+      { "label": "Minimum Ticket", "value": "₹20 L" }
+    ],
+    "about": "Detailed company overview pending. Add verified company information to this JSON file when it becomes available.",
+    "scoreLabel": "Under review",
+    "scores": [],
+    "investmentView": {
+      "sentiment": "Pending",
+      "summary": "CAPLORE investment analysis has not yet been added for this opportunity.",
+      "observations": []
+    }
+  }
+}

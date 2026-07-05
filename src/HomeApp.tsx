@@ -76,7 +76,7 @@ export default function HomeApp() {
             <p>Dummy content — coming soon.</p>
           </div>
           <div className="home-placeholder-card">
-            <h3>Deal Room Access</h3>
+            <h3>Company Access</h3>
             <p>Dummy content — coming soon.</p>
           </div>
           <div className="home-placeholder-card">

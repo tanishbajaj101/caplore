@@ -1,9 +1,12 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { AppSidebar, AppSidebarToggle } from "./AppSidebar";
+import { loadCompanyIndex } from "./companies/companyData";
+import type { CompanySummary } from "./companies/types";
 
 const AUTH_STORAGE_KEY = "caplore_auth";
 
 type AuthUser = { username?: string; name?: string; email?: string };
-type IconName = "grid" | "search" | "chart" | "book" | "globe" | "bolt" | "users" | "calendar" | "star" | "briefcase" | "file" | "sparkles" | "eye" | "bell" | "shield" | "trend" | "send" | "chevron";
+type IconName = "grid" | "search" | "chart" | "book" | "globe" | "bolt" | "users" | "calendar" | "star" | "briefcase" | "file" | "sparkles" | "eye" | "bell" | "shield" | "trend" | "send" | "chevron" | "menu";
 
 function Icon({ name, size = 16 }: { name: IconName; size?: number }) {
   const paths: Record<IconName, ReactNode> = {
@@ -25,33 +28,10 @@ function Icon({ name, size = 16 }: { name: IconName; size?: number }) {
     trend: <><path d="m3 17 6-6 4 4 8-9" /><path d="M15 6h6v6" /></>,
     send: <><path d="m22 2-9 20-3-9-8-4z" /><path d="M22 2 10 13" /></>,
     chevron: <path d="m8 10 4 4 4-4" />,
+    menu: <><path d="M4 7h16M4 12h16M4 17h16" /></>,
   };
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
 }
-
-const navGroups: { label?: string; items: { label: string; icon: IconName; href: string; badge?: string }[] }[] = [
-  { items: [
-    { label: "Dashboard", icon: "grid", href: "/dashboard" },
-    { label: "Opportunities", icon: "search", href: "/opportunities", badge: "42" },
-    { label: "My Portfolio", icon: "chart", href: "#" },
-    { label: "Research & Insights", icon: "book", href: "#" },
-    { label: "Sector Intelligence", icon: "globe", href: "#" },
-    { label: "CAPLORE Signals", icon: "bolt", href: "#" },
-  ] },
-  { label: "Community", items: [
-    { label: "Community", icon: "users", href: "#" },
-    { label: "Events & Webinars", icon: "calendar", href: "#" },
-  ] },
-  { label: "Premium", items: [
-    { label: "CAPLORE+", icon: "star", href: "/join", badge: "New" },
-    { label: "Deal Rooms", icon: "briefcase", href: "/deal-room/abc-engineering" },
-    { label: "Documents", icon: "file", href: "#" },
-  ] },
-  { label: "Tools", items: [
-    { label: "AI Research", icon: "sparkles", href: "#" },
-    { label: "Watchlist", icon: "eye", href: "#" },
-  ] },
-];
 
 const stats = [
   { label: "Invested", value: "₹6.48 Cr", note: "↑ 12.35%", icon: "shield" as IconName, tone: "blue", up: true },
@@ -60,14 +40,6 @@ const stats = [
   { label: "Live Deals", value: "42", note: "Pre-IPO & Growth", icon: "search" as IconName, tone: "blue" },
   { label: "New This Week", value: "8", note: "Deals Added", icon: "calendar" as IconName, tone: "amber" },
   { label: "IPO Pipeline", value: "27", note: "SME IPOs Tracked", icon: "bolt" as IconName, tone: "blue" },
-];
-
-const deals = [
-  { initials: "AB", name: "ABC Engineering Ltd.", sector: "Industrial Machinery", tag: "Pre-IPO", tagTone: "blue", art: "⚙", raise: "₹120 Cr", ticket: "₹25 L", timeline: "24–30 Mo", score: 85, risk: "Moderate", color: "#6479ec" },
-  { initials: "SC", name: "Shakti Components", sector: "Auto Ancillary", tag: "Growth Capital", tagTone: "green", art: "◆", raise: "₹75 Cr", ticket: "₹20 L", timeline: "24–30 Mo", score: 78, risk: "Moderate", color: "#e7a21a" },
-  { initials: "HL", name: "Healix Lifesciences", sector: "Healthcare", tag: "Pre-IPO", tagTone: "blue", art: "✚", raise: "₹150 Cr", ticket: "₹30 L", timeline: "12–18 Mo", score: 88, risk: "Low", color: "#0ba272" },
-  { initials: "SI", name: "Solvex Industries", sector: "Specialty Chemicals", tag: "Private Placement", tagTone: "amber", art: "◌", raise: "₹50 Cr", ticket: "₹15 L", timeline: "30+ Mo", score: 72, risk: "Moderate", color: "#7357dc" },
-  { initials: "NF", name: "Nex.Gen Foods Ltd.", sector: "FMCG", tag: "Pre-IPO", tagTone: "blue", art: "◇", raise: "₹60 Cr", ticket: "₹20 L", timeline: "18–24 Mo", score: 80, risk: "Moderate", color: "#e25858" },
 ];
 
 const signals = [
@@ -89,29 +61,44 @@ function Panel({ title, action, children }: { title: ReactNode; action?: ReactNo
 
 export default function DashboardHomeApp() {
   const user = useMemo(readUser, []);
-  const [dealFilter, setDealFilter] = useState("All Deals");
   const [briefFilter, setBriefFilter] = useState("All");
   const [accountOpen, setAccountOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.matchMedia("(min-width: 901px)").matches);
+  const [deals, setDeals] = useState<CompanySummary[]>([]);
+  const [dealsError, setDealsError] = useState("");
   const firstName = user.name?.trim().split(/\s+/)[0] || user.username || "Investor";
   const initials = (user.name || user.username || "Investor").split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
-  const visibleDeals = deals.filter((deal) => dealFilter === "All Deals" || deal.tag === dealFilter);
+  const featuredDeals = deals.slice(0, 6);
   const logout = () => { localStorage.removeItem(AUTH_STORAGE_KEY); window.location.assign("/"); };
 
-  return <div className="dashboard-app">
-    <aside className="dashboard-sidebar">
-      <a className="dashboard-brand" href="/dashboard"><span>C</span><div><strong>Caplore</strong><small>Investor Network</small></div></a>
-      <nav>{navGroups.map((group, index) => <div className="dashboard-nav-group" key={group.label || index}>
-        {group.label && <p>{group.label}</p>}
-        {group.items.map((item) => <a className={`dashboard-nav-item ${item.label === "Dashboard" ? "active" : ""}`} href={item.href} key={item.label}><Icon name={item.icon} size={15} /><span>{item.label}</span>{item.badge && <b>{item.badge}</b>}</a>)}
-      </div>)}</nav>
-      <div className="refer-card"><strong>Refer & Earn 🎁</strong><p>Invite investors and earn rewards</p><button type="button">Refer Now</button></div>
-    </aside>
+  useEffect(() => {
+    let active = true;
+    void loadCompanyIndex()
+      .then((companies) => {
+        if (active) setDeals(companies);
+      })
+      .catch((reason: unknown) => {
+        if (active) setDealsError(reason instanceof Error ? reason.message : "Could not load opportunities.");
+      });
+    return () => { active = false; };
+  }, []);
 
-    <main className="dashboard-shell">
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSidebarOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, []);
+
+  return <div className={`dashboard-app ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
+    <AppSidebar activeItem="dashboard" open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+    <main className="dashboard-shell app-page-shell">
       <header className="dashboard-topbar">
-        <div className="dashboard-greeting"><h1>Good Morning, {firstName} 👋</h1><p>Your capital. Our insights. Smarter opportunities.</p></div>
+        <AppSidebarToggle open={sidebarOpen} onToggle={() => setSidebarOpen((open) => !open)} />
+        <div className="dashboard-greeting"><h1>Good Morning, {firstName} 👋</h1></div>
         <label className="dashboard-search"><Icon name="search" size={14} /><input type="search" placeholder="Search companies, sectors, deals, reports…" /></label>
-        <a className="premium-chip" href="/join">★ Premium Investor</a>
         <button className="notification-button" type="button" aria-label="Notifications"><Icon name="bell" size={15} /><span>12</span></button>
         <div className="account-wrap">
           <button className="account-chip" type="button" onClick={() => setAccountOpen((open) => !open)} aria-expanded={accountOpen}><i>{initials}</i><div><strong>{user.name || user.username || "Investor"}</strong><small>Caplore member</small></div><Icon name="chevron" size={12} /></button>
@@ -124,16 +111,15 @@ export default function DashboardHomeApp() {
 
         <div className="dashboard-grid">
           <div className="dashboard-main-column">
-            <Panel title="Curated Opportunities" action={<a href="/opportunities">View All 42 →</a>}>
-              <div className="dashboard-tabs">{["All Deals", "Pre-IPO", "Growth Capital", "Private Placement", "CCDs / NCDs", "Secondary", "Syndicate"].map((tab) => <button className={dealFilter === tab ? "active" : ""} type="button" onClick={() => setDealFilter(tab)} key={tab}>{tab}</button>)}</div>
-              <div className="deal-strip">{visibleDeals.map((deal) => <article className="opportunity-card" key={deal.name}>
-                <div className="opportunity-copy"><span className={`deal-tag ${deal.tagTone}`}>{deal.tag}</span><div className="deal-company"><i style={{ color: deal.color, background: `${deal.color}18` }}>{deal.initials}</i><div><strong>{deal.name}</strong><small>{deal.sector}</small></div></div><p>High-quality business selected through Caplore&apos;s institutional diligence framework.</p></div>
+            <Panel title="Curated Opportunities" action={<a href="/companies">View All →</a>}>
+              <div className="deal-strip">{featuredDeals.map((deal) => <article className="opportunity-card" key={deal.name}>
+                <div className="opportunity-copy"><span className={`deal-tag ${deal.tagTone}`}>{deal.opportunityType}</span><div className="deal-company"><i style={{ color: deal.color, background: `${deal.color}18` }}>{deal.initials}</i><div><strong>{deal.name}</strong><small>{deal.sector}</small></div></div><p>{deal.teaser}</p></div>
                 <div className="deal-art" style={{ background: `linear-gradient(135deg, ${deal.color}55, ${deal.color})` }}><b>{deal.art}</b><span>{deal.sector}</span></div>
-                <div className="deal-metrics"><div><span>Target Raise</span><strong>{deal.raise}</strong></div><div><span>Min. Ticket</span><strong>{deal.ticket}</strong></div><div><span>IPO Timeline</span><strong>{deal.timeline}</strong></div></div>
+                <div className="deal-metrics"><div><span>Target Raise</span><strong>{deal.targetRaise}</strong></div><div><span>Min. Ticket</span><strong>{deal.minimumTicket}</strong></div><div><span>Timeline</span><strong>{deal.timeline}</strong></div></div>
                 <div className="deal-score"><strong>✓ Score {deal.score}/100</strong><span className={deal.risk === "Low" ? "low" : ""}>{deal.risk}</span></div>
-                <a className="deal-room-link" href="/deal-room/abc-engineering">View Deal Room</a>
-              </article>)}{visibleDeals.length === 0 && <p className="empty-deals">More {dealFilter} opportunities are coming soon.</p>}</div>
-              <p className="deal-count">Showing curated opportunities from 42 live deals</p>
+                <a className="company-link" href={`/companies/${deal.slug}`}>View Company</a>
+              </article>)}{dealsError && <p className="empty-deals">{dealsError}</p>}{!dealsError && featuredDeals.length === 0 && <p className="empty-deals">More opportunities are coming soon.</p>}</div>
+              <p className="deal-count">Showing the top {featuredDeals.length} companies</p>
             </Panel>
 
             <Panel title={<span className="title-with-badge">CAPLORE Signals <b>AI Powered</b></span>} action={<a href="#">View All →</a>}>
