@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from "react";
 import { AppSidebar, AppSidebarToggle } from "./AppSidebar";
+import { useSidebarState } from "./useSidebarState";
 import { loadCompany } from "./companies/companyData";
 import type {
   CompanyData,
@@ -389,7 +390,7 @@ function readUser(): AuthUser {
 
 function CompanyTemplate({ company }: { company: CompanyData }) {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
-  const [sidebarOpen, setSidebarOpen] = useState(() => window.matchMedia("(min-width: 901px)").matches);
+  const [sidebarOpen, setSidebarOpen] = useSidebarState();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const user = readUser();
   const displayName = user.name || user.username || "Investor";

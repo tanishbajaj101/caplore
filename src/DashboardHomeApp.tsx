@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { AppSidebar, AppSidebarToggle } from "./AppSidebar";
 import { loadCompanyIndex } from "./companies/companyData";
 import type { CompanySummary } from "./companies/types";
+import { useSidebarState } from "./useSidebarState";
 
 const AUTH_STORAGE_KEY = "caplore_auth";
 
 type AuthUser = { username?: string; name?: string; email?: string };
-type IconName = "grid" | "search" | "chart" | "book" | "globe" | "bolt" | "users" | "calendar" | "star" | "briefcase" | "file" | "sparkles" | "eye" | "bell" | "shield" | "trend" | "send" | "chevron" | "menu";
+type IconName = "grid" | "search" | "chart" | "book" | "globe" | "bolt" | "users" | "calendar" | "star" | "briefcase" | "file" | "sparkles" | "eye" | "bell" | "shield" | "trend" | "chevron" | "menu";
 
 function Icon({ name, size = 16 }: { name: IconName; size?: number }) {
   const paths: Record<IconName, ReactNode> = {
@@ -26,7 +27,6 @@ function Icon({ name, size = 16 }: { name: IconName; size?: number }) {
     bell: <><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" /><path d="M10 21h4" /></>,
     shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
     trend: <><path d="m3 17 6-6 4 4 8-9" /><path d="M15 6h6v6" /></>,
-    send: <><path d="m22 2-9 20-3-9-8-4z" /><path d="M22 2 10 13" /></>,
     chevron: <path d="m8 10 4 4 4-4" />,
     menu: <><path d="M4 7h16M4 12h16M4 17h16" /></>,
   };
@@ -63,7 +63,7 @@ export default function DashboardHomeApp() {
   const user = useMemo(readUser, []);
   const [briefFilter, setBriefFilter] = useState("All");
   const [accountOpen, setAccountOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(() => window.matchMedia("(min-width: 901px)").matches);
+  const [sidebarOpen, setSidebarOpen] = useSidebarState();
   const [deals, setDeals] = useState<CompanySummary[]>([]);
   const [dealsError, setDealsError] = useState("");
   const firstName = user.name?.trim().split(/\s+/)[0] || user.username || "Investor";
@@ -143,11 +143,6 @@ export default function DashboardHomeApp() {
                 <article><header><i className="amber">P</i><strong>Pre-IPO Market</strong><small>6h ago</small><b>Positive</b></header><p><strong>What Happened:</strong> Three profitable SMEs entered advanced fundraising.</p><p><strong>CAPLORE Insight:</strong> Valuations are stabilising across sectors.</p><a href="#">View Full Brief →</a></article>
               </div>
               <footer className="ai-powered"><Icon name="bolt" size={11} /> Powered by CAPLORE AI</footer>
-            </Panel>
-
-            <Panel title={<span className="title-with-badge">AI Research Assistant <b className="green">Beta</b></span>}>
-              <form className="ai-form" onSubmit={(event) => event.preventDefault()}><input aria-label="Ask AI Research Assistant" placeholder="Ask about companies, sectors, valuations, IPOs…" /><button type="submit" aria-label="Send"><Icon name="send" size={12} /></button></form>
-              <div className="ai-prompts">{["SME IPO pipeline", "Best manufacturing SMEs", "Pre-IPO fundraising", "Sector outlook"].map((prompt) => <button type="button" key={prompt}>{prompt}</button>)}</div>
             </Panel>
 
             <Panel title="Upcoming Events" action={<a href="#">View All →</a>}>

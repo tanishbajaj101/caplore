@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AppSidebar, AppSidebarToggle } from "./AppSidebar";
 import { loadCompanyIndex } from "./companies/companyData";
 import type { CompanySummary } from "./companies/types";
+import { useSidebarState } from "./useSidebarState";
 
 const filters = ["All Deals", "Pre-IPO", "Growth Capital", "Private Placement", "CCDs / NCDs", "Secondary", "Syndicate"];
 
@@ -10,7 +11,7 @@ export default function CompaniesApp() {
   const [activeFilter, setActiveFilter] = useState("All Deals");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [sidebarOpen, setSidebarOpen] = useState(() => window.matchMedia("(min-width: 901px)").matches);
+  const [sidebarOpen, setSidebarOpen] = useSidebarState();
 
   useEffect(() => {
     let active = true;
