@@ -60,6 +60,19 @@ async function renderRoute() {
     ]);
     Page = DashboardHomeApp;
     document.title = "Dashboard · Caplore";
+  } else if (route === "/community") {
+    if (!isAuthenticated) {
+      window.location.replace("/login");
+      return;
+    }
+
+    const [{ default: CommunityApp }] = await Promise.all([
+      import("./CommunityApp"),
+      import("./dashboard-home.css"),
+      import("./community.css"),
+    ]);
+    Page = CommunityApp;
+    document.title = "Community · Caplore";
   } else if (route === "/companies") {
     const [{ default: CompaniesApp }] = await Promise.all([
       import("./CompaniesApp"),
