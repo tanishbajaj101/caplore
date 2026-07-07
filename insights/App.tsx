@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { AIAnalysisView } from "./components/AIAnalysisView";
 import { ArticleView } from "./components/ArticleView";
@@ -21,6 +21,7 @@ export default function App() {
   const [isPageVisible, setIsPageVisible] = useState(
     () => document.visibilityState === "visible",
   );
+  const autoAdvanceScrollY = useRef<number | null>(null);
   const ActiveView = views[activeAct];
 
   useEffect(() => {
@@ -37,11 +38,37 @@ export default function App() {
     if (!isPageVisible) return;
 
     const timeout = window.setTimeout(() => {
+      autoAdvanceScrollY.current = window.scrollY;
       setActiveAct((currentAct) => ((currentAct % 4) + 1) as Act);
     }, AUTO_ADVANCE_DELAY);
 
     return () => window.clearTimeout(timeout);
   }, [activeAct, isPageVisible]);
+
+  useLayoutEffect(() => {
+    const lockedScrollY = autoAdvanceScrollY.current;
+    if (lockedScrollY === null) return;
+
+    autoAdvanceScrollY.current = null;
+    if (window.matchMedia("(min-width: 769px)").matches) return;
+
+    const restoreScroll = () => {
+      window.scrollTo({ top: lockedScrollY, behavior: "auto" });
+    };
+
+    restoreScroll();
+    const firstFrame = window.requestAnimationFrame(restoreScroll);
+    const lockInterval = window.setInterval(restoreScroll, 50);
+    const releaseLock = window.setTimeout(() => {
+      window.clearInterval(lockInterval);
+    }, 700);
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.clearInterval(lockInterval);
+      window.clearTimeout(releaseLock);
+    };
+  }, [activeAct]);
 
   return (
     <section className="insights-component" aria-labelledby="market-lens-title">
