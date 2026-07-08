@@ -38,6 +38,7 @@ export default function LoginApp() {
       });
       const result = (await response.json()) as {
         error?: string;
+        token?: string;
         user?: {
           username: string;
           name: string;
@@ -46,11 +47,11 @@ export default function LoginApp() {
         };
       };
 
-      if (!response.ok || !result.user) {
+      if (!response.ok || !result.user || !result.token) {
         throw new Error(result.error || "Login failed.");
       }
 
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(result.user));
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ ...result.user, token: result.token }));
       window.location.assign("/dashboard");
     } catch (error) {
       setStatus({

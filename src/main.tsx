@@ -12,6 +12,7 @@ type StoredAuthUser = {
   name: string;
   email: string;
   phone_number: string;
+  token: string;
 };
 
 function hasValidStoredUser(): boolean {
@@ -27,7 +28,9 @@ function hasValidStoredUser(): boolean {
         user.username.trim() &&
         typeof user.name === "string" &&
         typeof user.email === "string" &&
-        typeof user.phone_number === "string",
+        typeof user.phone_number === "string" &&
+        typeof user.token === "string" &&
+        user.token.trim(),
     );
   } catch {
     return false;
@@ -60,6 +63,18 @@ async function renderRoute() {
     ]);
     Page = DashboardHomeApp;
     document.title = "Dashboard · Caplore";
+  } else if (route === "/community") {
+    if (!isAuthenticated) {
+      window.location.replace("/login");
+      return;
+    }
+
+    const [{ default: CommunityApp }] = await Promise.all([
+      import("./CommunityApp"),
+      import("./community.css"),
+    ]);
+    Page = CommunityApp;
+    document.title = "Community · Caplore";
   } else if (route === "/companies") {
     const [{ default: CompaniesApp }] = await Promise.all([
       import("./CompaniesApp"),

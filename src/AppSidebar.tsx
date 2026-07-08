@@ -48,7 +48,7 @@ const navGroups: {
   {
     label: "Community",
     items: [
-      { id: "community", label: "Community", icon: "users", href: "#" },
+      { id: "community", label: "Community", icon: "users", href: "/community" },
       { id: "events", label: "Events & Webinars", icon: "calendar", href: "#" },
     ],
   },

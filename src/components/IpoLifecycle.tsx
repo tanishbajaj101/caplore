@@ -505,7 +505,7 @@ export default function IpoLifecycleMotion() {
                   </motion.article>
                   {index < stages.length - 1 && (
                     <span
-                      className="shrink-0 rotate-90 text-xl font-medium text-blue-400 lg:absolute lg:-right-4 lg:top-1/2 lg:z-10 lg:-translate-y-1/2 lg:rotate-0"
+                      className="hidden shrink-0 text-xl font-medium text-blue-400 lg:absolute lg:-right-4 lg:top-1/2 lg:z-10 lg:block lg:-translate-y-1/2"
                       aria-hidden="true"
                     >
                       {'->'}
