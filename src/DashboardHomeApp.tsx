@@ -1,12 +1,17 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { AppSidebar, AppSidebarToggle } from "./AppSidebar";
 import { loadCompanyIndex } from "./companies/companyData";
 import type { CompanySummary } from "./companies/types";
 import { useSidebarState } from "./useSidebarState";
+import { AiDailyBriefPanel } from "./components/AiDailyBriefPanel";
 
+const apiBaseUrl = (
+  import.meta.env.VITE_API_BASE_URL ??
+  "https://caplore-backend-production.up.railway.app"
+).replace(/\/$/, "");
 const AUTH_STORAGE_KEY = "caplore_auth";
 
-type AuthUser = { username?: string; name?: string; email?: string };
+type AuthUser = { username?: string; name?: string; email?: string; token?: string };
 type IconName = "grid" | "search" | "chart" | "book" | "globe" | "bolt" | "users" | "calendar" | "star" | "briefcase" | "file" | "sparkles" | "eye" | "bell" | "shield" | "trend" | "chevron" | "menu";
 
 function Icon({ name, size = 16 }: { name: IconName; size?: number }) {
@@ -61,15 +66,71 @@ function Panel({ title, action, children }: { title: ReactNode; action?: ReactNo
 
 export default function DashboardHomeApp() {
   const user = useMemo(readUser, []);
-  const [briefFilter, setBriefFilter] = useState("All");
   const [accountOpen, setAccountOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useSidebarState();
   const [deals, setDeals] = useState<CompanySummary[]>([]);
   const [dealsError, setDealsError] = useState("");
+  const [passwordOpen, setPasswordOpen] = useState(false);
+  const [passwordSubmitting, setPasswordSubmitting] = useState(false);
+  const [passwordStatus, setPasswordStatus] = useState<{ state: "" | "error" | "success"; message: string }>({ state: "", message: "" });
   const firstName = user.name?.trim().split(/\s+/)[0] || user.username || "Investor";
   const initials = (user.name || user.username || "Investor").split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
   const featuredDeals = deals.slice(0, 6);
   const logout = () => { localStorage.removeItem(AUTH_STORAGE_KEY); window.location.assign("/"); };
+  const openPasswordForm = () => {
+    setAccountOpen(false);
+    setPasswordStatus({ state: "", message: "" });
+    setPasswordOpen(true);
+  };
+  const closePasswordForm = () => {
+    if (passwordSubmitting) return;
+    setPasswordOpen(false);
+    setPasswordStatus({ state: "", message: "" });
+  };
+  const changePassword = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    if (!form.reportValidity()) return;
+
+    const formData = new FormData(form);
+    const previousPassword = String(formData.get("previousPassword") ?? "");
+    const newPassword = String(formData.get("newPassword") ?? "");
+    const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+    if (newPassword !== confirmPassword) {
+      setPasswordStatus({ state: "error", message: "New passwords do not match." });
+      return;
+    }
+
+    setPasswordSubmitting(true);
+    setPasswordStatus({ state: "", message: "" });
+    try {
+      const response = await fetch(`${apiBaseUrl}/api/changePassword`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token ?? ""}`,
+        },
+        body: JSON.stringify({ previousPassword, newPassword }),
+      });
+      const result = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(result.error || "Could not change your password.");
+      }
+
+      form.reset();
+      setPasswordStatus({ state: "success", message: "Password changed successfully." });
+    } catch (error) {
+      setPasswordStatus({
+        state: "error",
+        message: error instanceof Error ? error.message : "Could not change your password.",
+      });
+    } finally {
+      setPasswordSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     let active = true;
@@ -85,11 +146,14 @@ export default function DashboardHomeApp() {
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSidebarOpen(false);
+      if (event.key === "Escape") {
+        if (passwordOpen) setPasswordOpen(false);
+        setSidebarOpen(false);
+      }
     };
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, []);
+  }, [passwordOpen]);
 
   return <div className={`dashboard-app ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
     <AppSidebar activeItem="dashboard" open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -102,9 +166,20 @@ export default function DashboardHomeApp() {
         <button className="notification-button" type="button" aria-label="Notifications"><Icon name="bell" size={15} /><span>12</span></button>
         <div className="account-wrap">
           <button className="account-chip" type="button" onClick={() => setAccountOpen((open) => !open)} aria-expanded={accountOpen}><i>{initials}</i><div><strong>{user.name || user.username || "Investor"}</strong><small>Caplore member</small></div><Icon name="chevron" size={12} /></button>
-          {accountOpen && <div className="account-menu">{user.email && <span>{user.email}</span>}<button type="button" onClick={logout}>Log out</button></div>}
+          {accountOpen && <div className="account-menu">{user.email && <span>{user.email}</span>}<button className="change-password" type="button" onClick={openPasswordForm}>Change password</button><button type="button" onClick={logout}>Log out</button></div>}
         </div>
       </header>
+
+      {passwordOpen && <div className="password-overlay" role="presentation" onMouseDown={closePasswordForm}>
+        <form className="password-popover" onSubmit={changePassword} onMouseDown={(event) => event.stopPropagation()}>
+          <header><div><span>Account security</span><h2>Change password</h2></div><button type="button" onClick={closePasswordForm} aria-label="Close change password">×</button></header>
+          <label>Previous password<input name="previousPassword" type="password" autoComplete="current-password" minLength={1} maxLength={200} required /></label>
+          <label>New password<input name="newPassword" type="password" autoComplete="new-password" minLength={8} maxLength={200} required /></label>
+          <label>Confirm new password<input name="confirmPassword" type="password" autoComplete="new-password" minLength={8} maxLength={200} required /></label>
+          <p className="password-status" data-state={passwordStatus.state} role="status" aria-live="polite">{passwordStatus.message}</p>
+          <footer><button type="button" onClick={closePasswordForm} disabled={passwordSubmitting}>Cancel</button><button type="submit" disabled={passwordSubmitting}>{passwordSubmitting ? "Changing..." : "Change password"}</button></footer>
+        </form>
+      </div>}
 
       <div className="dashboard-content">
         <section className="stat-row" aria-label="Portfolio overview">{stats.map((stat) => <article className="stat-card" key={stat.label}><div><i className={stat.tone}><Icon name={stat.icon} size={14} /></i><span>{stat.label}</span></div><strong>{stat.value}</strong><small className={stat.up ? "up" : ""}>{stat.note}</small></article>)}</section>
@@ -135,15 +210,7 @@ export default function DashboardHomeApp() {
           </div>
 
           <aside className="dashboard-side-column">
-            <Panel title={<span className="panel-icon-title"><Icon name="bolt" size={14} /> AI Daily Brief</span>} action={<a href="#">View All →</a>}>
-              <div className="dashboard-tabs compact">{["All", "Market", "Sectors", "Pre-IPO"].map((tab) => <button className={briefFilter === tab ? "active" : ""} type="button" onClick={() => setBriefFilter(tab)} key={tab}>{tab}</button>)}</div>
-              <div className="brief-list">
-                <article><header><i className="green">M</i><strong>Manufacturing</strong><small>2h ago</small><b>Positive</b></header><p><strong>What Happened:</strong> Industrial production grew 5.2% YoY.</p><p><strong>CAPLORE Insight:</strong> Focus on operating leverage and export exposure.</p><a href="#">View Full Brief →</a></article>
-                <article><header><i className="blue">S</i><strong>SME IPO Market</strong><small>4h ago</small><b className="neutral">Neutral</b></header><p><strong>What Happened:</strong> Five SME companies filed DRHPs this week.</p><p><strong>CAPLORE Insight:</strong> Healthcare and engineering lead the pipeline.</p><a href="#">View Full Brief →</a></article>
-                <article><header><i className="amber">P</i><strong>Pre-IPO Market</strong><small>6h ago</small><b>Positive</b></header><p><strong>What Happened:</strong> Three profitable SMEs entered advanced fundraising.</p><p><strong>CAPLORE Insight:</strong> Valuations are stabilising across sectors.</p><a href="#">View Full Brief →</a></article>
-              </div>
-              <footer className="ai-powered"><Icon name="bolt" size={11} /> Powered by CAPLORE AI</footer>
-            </Panel>
+            <AiDailyBriefPanel />
 
             <Panel title="Upcoming Events" action={<a href="#">View All →</a>}>
               <div className="event-list">{[
