@@ -1,41 +1,12 @@
 import { StrictMode, type ComponentType } from "react";
 import { createRoot } from "react-dom/client";
-import "./app-topbar.css";
-import "./app-sidebar.css";
+import { hasValidStoredUser } from "./auth/storage";
+import "./global.css";
+import "./components/navigation/app-topbar.css";
+import "./components/navigation/app-sidebar.css";
 
 const route = window.location.pathname.replace(/\/+$/, "") || "/";
 const companyRoute = route.match(/^\/companies\/([a-z0-9-]+)$/);
-const AUTH_STORAGE_KEY = "caplore_auth";
-
-type StoredAuthUser = {
-  username: string;
-  name: string;
-  email: string;
-  phone_number: string;
-  token: string;
-};
-
-function hasValidStoredUser(): boolean {
-  try {
-    const rawUser = localStorage.getItem(AUTH_STORAGE_KEY);
-    if (!rawUser) return false;
-
-    const user = JSON.parse(rawUser) as Partial<StoredAuthUser> | null;
-    return Boolean(
-      user &&
-        typeof user === "object" &&
-        typeof user.username === "string" &&
-        user.username.trim() &&
-        typeof user.name === "string" &&
-        typeof user.email === "string" &&
-        typeof user.phone_number === "string" &&
-        typeof user.token === "string" &&
-        user.token.trim(),
-    );
-  } catch {
-    return false;
-  }
-}
 
 async function renderRoute() {
   let Page: ComponentType;
@@ -58,8 +29,8 @@ async function renderRoute() {
     }
 
     const [{ default: DashboardHomeApp }] = await Promise.all([
-      import("./DashboardHomeApp"),
-      import("./dashboard-home.css"),
+      import("./pages/dashboard/DashboardHomeApp"),
+      import("./pages/dashboard/dashboard-home.css"),
     ]);
     Page = DashboardHomeApp;
     document.title = "Dashboard · Caplore";
@@ -70,44 +41,44 @@ async function renderRoute() {
     }
 
     const [{ default: CommunityApp }] = await Promise.all([
-      import("./CommunityApp"),
-      import("./community.css"),
+      import("./pages/community/CommunityApp"),
+      import("./pages/community/community.css"),
     ]);
     Page = CommunityApp;
     document.title = "Community · Caplore";
   } else if (route === "/companies") {
     const [{ default: CompaniesApp }] = await Promise.all([
-      import("./CompaniesApp"),
-      import("./companies.css"),
+      import("./pages/companies/CompaniesApp"),
+      import("./pages/companies/companies.css"),
     ]);
     Page = CompaniesApp;
     document.title = "Companies · Caplore";
   } else if (companyRoute) {
     const slug = companyRoute[1];
     const [{ default: CompanyApp }] = await Promise.all([
-      import("./CompanyApp"),
-      import("./company.css"),
+      import("./pages/company/CompanyApp"),
+      import("./pages/company/company.css"),
     ]);
     Page = () => <CompanyApp slug={slug} />;
     document.title = "Company · Caplore";
   } else if (route === "/join") {
     const [{ default: JoinApp }] = await Promise.all([
-      import("./JoinApp"),
-      import("./join.css"),
+      import("./pages/join/JoinApp"),
+      import("./pages/join/join.css"),
     ]);
     Page = JoinApp;
     document.title = "Join Caplore Premium";
   } else if (route === "/login") {
     const [{ default: LoginApp }] = await Promise.all([
-      import("./LoginApp"),
-      import("./login.css"),
+      import("./pages/login/LoginApp"),
+      import("./pages/login/login.css"),
     ]);
     Page = LoginApp;
     document.title = "Log In · Caplore";
   } else {
     const [{ default: App }] = await Promise.all([
-      import("./App"),
-      import("./index.css"),
+      import("./pages/landing/LandingPage"),
+      import("./pages/landing/index.css"),
     ]);
     Page = App;
   }

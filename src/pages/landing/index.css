@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@source "../../components/ipo-lifecycle/IpoLifecycle.tsx";
+
+#root {
+  min-height: 100vh;
+}
+
+.legacy-page-fragment {
+  display: contents;
+}
