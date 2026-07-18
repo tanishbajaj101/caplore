@@ -1,13 +1,16 @@
 import type { ChangeEvent, FormEvent } from "react";
 import { CommunityIcon } from "./CommunityIcon";
+import { CategorySelect } from "./CategorySelect";
 
 type PostComposerProps = {
   initials: string;
   postFiles: File[];
   postText: string;
+  postCategory: string;
   posting: boolean;
   previews: string[];
   onChangeText: (text: string) => void;
+  onChangeCategory: (category: string) => void;
   onFilesChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onRemoveImage: (index: number) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -17,9 +20,11 @@ export function PostComposer({
   initials,
   postFiles,
   postText,
+  postCategory,
   posting,
   previews,
   onChangeText,
+  onChangeCategory,
   onFilesChange,
   onRemoveImage,
   onSubmit,
@@ -54,6 +59,15 @@ export function PostComposer({
             Image
             <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple onChange={onFilesChange} />
           </label>
+          <CategorySelect
+            value={postCategory}
+            onChange={onChangeCategory}
+            options={[
+              { value: "deal_insight", label: "Deal Insight" },
+              { value: "market_update", label: "Market Update" },
+              { value: "question", label: "Question" },
+            ]}
+          />
         </div>
         <button className="post-submit" type="submit" disabled={posting || !postText.trim()}>
           {posting ? "Posting..." : "Post"}

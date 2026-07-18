@@ -8,7 +8,8 @@ export type CommunityIconName =
   | "heart"
   | "comment"
   | "check"
-  | "x";
+  | "x"
+  | "bookmark";
 
 export function CommunityIcon({ name, size = 16 }: { name: CommunityIconName; size?: number }) {
   const paths: Record<CommunityIconName, ReactNode> = {
@@ -20,6 +21,7 @@ export function CommunityIcon({ name, size = 16 }: { name: CommunityIconName; si
     comment: <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />,
     check: <path d="m5 12 4 4L19 6" />,
     x: <><path d="M18 6 6 18" /><path d="m6 6 12 12" /></>,
+    bookmark: <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />,
   };
 
   return (

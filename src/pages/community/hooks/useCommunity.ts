@@ -9,6 +9,7 @@ import type {
   Connection,
   ConnectionRequest,
   Suggestion,
+  UserProfile,
 } from "../types";
 
 const MAX_IMAGES = 6;
@@ -18,17 +19,34 @@ export function useCommunity() {
   const token = user.token ?? "";
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<CommunityStatus>({ state: "", message: "" });
+  
+  // Profile state
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+
+  // Feed state
+  const [feedType, setFeedType] = useState<"feed" | "bookmarks">("feed");
+  const [feedCategory, setFeedCategory] = useState<string>("all");
+  const [cursor, setCursor] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(false);
   const [posts, setPosts] = useState<CommunityPost[]>([]);
-  const [comments, setComments] = useState<Record<number, CommunityComment[]>>({});
-  const [connections, setConnections] = useState<Connection[]>([]);
-  const [requests, setRequests] = useState<ConnectionRequest[]>([]);
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  
+  // Post composing state
+  const [postCategory, setPostCategory] = useState("deal_insight");
   const [postText, setPostText] = useState("");
   const [postFiles, setPostFiles] = useState<File[]>([]);
   const [posting, setPosting] = useState(false);
+  const previews = useObjectUrlPreviews(postFiles);
+  
+  // Social/Interaction state
+  const [comments, setComments] = useState<Record<number, CommunityComment[]>>({});
   const [commentDrafts, setCommentDrafts] = useState<Record<number, string>>({});
   const [busyIds, setBusyIds] = useState<Set<string>>(new Set());
-  const previews = useObjectUrlPreviews(postFiles);
+  
+  // Connections state
+  const [connections, setConnections] = useState<Connection[]>([]);
+  const [requests, setRequests] = useState<ConnectionRequest[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
 
   const loadComments = useCallback(async (postId: number) => {
     try {
@@ -60,22 +78,40 @@ export function useCommunity() {
     }
   }, [token]);
 
-  const loadCommunity = useCallback(async () => {
+  const loadFeed = useCallback(async (isLoadMore: boolean = false) => {
     if (!token) return;
 
-    setLoading(true);
+    if (!isLoadMore) {
+      setLoading(true);
+      setPosts([]);
+    }
+
     try {
+      const currentCursor = isLoadMore ? cursor : null;
+      let endpoint = feedType === "bookmarks" ? "/api/community/bookmarks" : "/api/community/feed";
+      
+      const queryParams = new URLSearchParams();
+      if (currentCursor) queryParams.append("before", currentCursor);
+      if (feedType === "feed" && feedCategory !== "all") queryParams.append("category", feedCategory);
+      
+      const queryString = queryParams.toString();
+      if (queryString) endpoint += `?${queryString}`;
+
       const [feedResult, connectionsResult, requestsResult, suggestionsResult] = await Promise.all([
-        requestCommunityJson<{ posts: CommunityPost[] }>("/api/community/feed", token),
-        requestCommunityJson<{ connections: Connection[] }>("/api/community/connections", token),
-        requestCommunityJson<{ requests: ConnectionRequest[] }>("/api/community/connections/requests", token),
-        requestCommunityJson<{ suggestions: Suggestion[] }>("/api/community/connections/suggestions", token),
+        requestCommunityJson<{ posts: CommunityPost[]; nextCursor?: string }>(endpoint, token),
+        !isLoadMore ? requestCommunityJson<{ connections: Connection[] }>("/api/community/connections", token) : Promise.resolve(null),
+        !isLoadMore ? requestCommunityJson<{ requests: ConnectionRequest[] }>("/api/community/connections/requests", token) : Promise.resolve(null),
+        !isLoadMore ? requestCommunityJson<{ suggestions: Suggestion[] }>("/api/community/connections/suggestions", token) : Promise.resolve(null),
       ]);
 
-      setPosts(feedResult.posts);
-      setConnections(connectionsResult.connections);
-      setRequests(requestsResult.requests);
-      setSuggestions(suggestionsResult.suggestions);
+      setPosts((current) => isLoadMore ? [...current, ...feedResult.posts] : feedResult.posts);
+      setCursor(feedResult.nextCursor || null);
+      setHasMore(!!feedResult.nextCursor);
+
+      if (connectionsResult) setConnections(connectionsResult.connections);
+      if (requestsResult) setRequests(requestsResult.requests);
+      if (suggestionsResult) setSuggestions(suggestionsResult.suggestions);
+      
       setStatus({ state: "", message: "" });
 
       void Promise.all(feedResult.posts.map((post) => loadComments(post.id)));
@@ -85,13 +121,33 @@ export function useCommunity() {
         message: error instanceof Error ? error.message : "Could not load the community.",
       });
     } finally {
-      setLoading(false);
+      if (!isLoadMore) setLoading(false);
     }
-  }, [loadComments, token]);
+  }, [loadComments, token, feedType, feedCategory, cursor]);
 
   useEffect(() => {
-    void loadCommunity();
-  }, [loadCommunity]);
+    void loadFeed(false);
+  }, [feedType, feedCategory, token]);
+
+  const loadUserProfile = useCallback(async () => {
+    if (!user.username || !token) return;
+    setProfileLoading(true);
+    try {
+      const result = await requestCommunityJson<{ profile: UserProfile }>(
+        `/api/profile/${user.username}`,
+        token
+      );
+      setProfile(result.profile);
+    } catch (error) {
+      console.error("Failed to load user profile:", error);
+    } finally {
+      setProfileLoading(false);
+    }
+  }, [user.username, token]);
+
+  useEffect(() => {
+    void loadUserProfile();
+  }, [loadUserProfile]);
 
   const withBusy = useCallback(async (key: string, action: () => Promise<void>) => {
     setBusyIds((current) => new Set(current).add(key));
@@ -154,10 +210,12 @@ export function useCommunity() {
 
       const result = await requestCommunityJson<{ post: CommunityPost }>("/api/community/posts", token, {
         method: "POST",
-        body: JSON.stringify({ body: text, imageKeys }),
+        body: JSON.stringify({ body: text, imageKeys, category: postCategory }),
       });
 
-      setPosts((current) => [result.post, ...current]);
+      if (feedType === "feed" && (feedCategory === "all" || feedCategory === postCategory)) {
+        setPosts((current) => [result.post, ...current]);
+      }
       setComments((current) => ({ ...current, [result.post.id]: [] }));
       setPostText("");
       setPostFiles([]);
@@ -196,7 +254,7 @@ export function useCommunity() {
           body: JSON.stringify({ status: nextStatus }),
         });
         await refreshConnections();
-        if (nextStatus === "accepted") await loadCommunity();
+        if (nextStatus === "accepted") void loadFeed(false);
       } catch (error) {
         setStatus({
           state: "error",
@@ -222,6 +280,32 @@ export function useCommunity() {
         setStatus({
           state: "error",
           message: error instanceof Error ? error.message : "Could not update like.",
+        });
+      }
+    });
+
+  const toggleBookmark = (postId: number) =>
+    withBusy(`bookmark:${postId}`, async () => {
+      try {
+        const result = await requestCommunityJson<{ bookmarked: boolean }>(
+          `/api/community/posts/${postId}/bookmark`,
+          token,
+          { method: "POST" },
+        );
+        
+        if (feedType === "bookmarks" && !result.bookmarked) {
+          setPosts((current) => current.filter(post => post.id !== postId));
+        } else {
+          setPosts((current) =>
+            current.map((post) =>
+              post.id === postId ? { ...post, bookmarkedByMe: result.bookmarked } : post,
+            ),
+          );
+        }
+      } catch (error) {
+        setStatus({
+          state: "error",
+          message: error instanceof Error ? error.message : "Could not update bookmark.",
         });
       }
     });
@@ -258,6 +342,14 @@ export function useCommunity() {
     loading,
     status,
     posts,
+    hasMore,
+    feedType,
+    setFeedType,
+    feedCategory,
+    setFeedCategory,
+    postCategory,
+    setPostCategory,
+    loadMore: () => void loadFeed(true),
     comments,
     connections,
     requests,
@@ -276,7 +368,9 @@ export function useCommunity() {
     sendConnectionRequest,
     respondToRequest,
     toggleLike,
+    toggleBookmark,
     submitComment,
+    profile,
+    profileLoading,
   };
 }
-

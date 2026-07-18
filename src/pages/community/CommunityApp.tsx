@@ -9,7 +9,7 @@ import { PasswordDialog } from "../../components/auth/PasswordDialog";
 import { useChangePassword } from "../../hooks/useChangePassword";
 import { FeedList } from "./components/FeedList";
 import { PostComposer } from "./components/PostComposer";
-import { ProfileCard } from "./components/ProfileCard";
+import { ProfileCard, SkeletonProfile } from "./components/ProfileCard";
 import { useCommunity } from "./hooks/useCommunity";
 
 export default function CommunityApp() {
@@ -75,32 +75,54 @@ export default function CommunityApp() {
 
         <main className="community-workspace">
           <aside className="community-left-rail">
-            <ProfileCard
-              connectionCount={community.connections.length}
-              displayName={displayName}
-              initials={initials}
-              postCount={myPostCount}
-              username={community.user.username}
-            />
+            {community.profileLoading ? (
+              <SkeletonProfile />
+            ) : (
+              <ProfileCard
+                connectionCount={community.connections.length}
+                displayName={community.profile?.name || displayName}
+                initials={initialsFor(community.profile?.name || displayName, community.profile?.username || community.user.username)}
+                postCount={myPostCount}
+                username={community.profile?.username || community.user.username}
+              />
+            )}
           </aside>
 
           <section className="community-feed-column">
             {community.status.message && (
               <p className={`community-status ${community.status.state}`}>{community.status.message}</p>
             )}
-            {community.loading && <p className="community-status">Loading community...</p>}
 
-            <PostComposer
-              initials={initials}
-              postFiles={community.postFiles}
-              postText={community.postText}
-              posting={community.posting}
-              previews={community.previews}
-              onChangeText={community.setPostText}
-              onFilesChange={community.handleFiles}
-              onRemoveImage={community.removeImage}
-              onSubmit={community.createPost}
-            />
+            <nav className="community-feed-tabs">
+              <button 
+                className={community.feedType === "feed" ? "active" : ""} 
+                onClick={() => community.setFeedType("feed")}
+              >
+                Feed
+              </button>
+              <button 
+                className={community.feedType === "bookmarks" ? "active" : ""} 
+                onClick={() => community.setFeedType("bookmarks")}
+              >
+                Bookmarks
+              </button>
+            </nav>
+
+            {community.feedType === "feed" && (
+              <PostComposer
+                initials={initials}
+                postFiles={community.postFiles}
+                postText={community.postText}
+                postCategory={community.postCategory}
+                posting={community.posting}
+                previews={community.previews}
+                onChangeText={community.setPostText}
+                onChangeCategory={community.setPostCategory}
+                onFilesChange={community.handleFiles}
+                onRemoveImage={community.removeImage}
+                onSubmit={community.createPost}
+              />
+            )}
 
             <FeedList
               busyIds={community.busyIds}
@@ -108,9 +130,15 @@ export default function CommunityApp() {
               comments={community.comments}
               loading={community.loading}
               posts={community.posts}
+              feedType={community.feedType}
+              feedCategory={community.feedCategory}
+              hasMore={community.hasMore}
+              setFeedCategory={community.setFeedCategory}
               setCommentDrafts={community.setCommentDrafts}
               onSubmitComment={community.submitComment}
               onToggleLike={community.toggleLike}
+              onToggleBookmark={community.toggleBookmark}
+              onLoadMore={community.loadMore}
             />
           </section>
 

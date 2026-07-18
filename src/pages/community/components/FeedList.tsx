@@ -18,15 +18,44 @@ function formatTime(value: string) {
   return date.toLocaleDateString(undefined, { day: "numeric", month: "short" });
 }
 
+function SkeletonPost() {
+  return (
+    <article className="feed-card skeleton-post">
+      <header className="feed-card-head">
+        <i className="skeleton-avatar" />
+        <div>
+          <div className="skeleton-text skeleton-title" />
+          <div className="skeleton-text skeleton-meta" />
+        </div>
+      </header>
+      <div className="skeleton-text skeleton-body-1" />
+      <div className="skeleton-text skeleton-body-2" />
+    </article>
+  );
+}
+
+const CATEGORIES = [
+  { value: "all", label: "All" },
+  { value: "deal_insight", label: "Deal Insight" },
+  { value: "market_update", label: "Market Update" },
+  { value: "question", label: "Question" },
+];
+
 type FeedListProps = {
   busyIds: Set<string>;
   commentDrafts: Record<number, string>;
   comments: Record<number, CommunityComment[]>;
   loading: boolean;
   posts: CommunityPost[];
+  feedType: "feed" | "bookmarks";
+  feedCategory: string;
+  hasMore: boolean;
+  setFeedCategory: (category: string) => void;
   setCommentDrafts: Dispatch<SetStateAction<Record<number, string>>>;
   onSubmitComment: (postId: number) => Promise<void>;
   onToggleLike: (postId: number) => Promise<void>;
+  onToggleBookmark: (postId: number) => Promise<void>;
+  onLoadMore: () => void;
 };
 
 export function FeedList({
@@ -35,19 +64,40 @@ export function FeedList({
   comments,
   loading,
   posts,
+  feedType,
+  feedCategory,
+  hasMore,
+  setFeedCategory,
   setCommentDrafts,
   onSubmitComment,
   onToggleLike,
+  onToggleBookmark,
+  onLoadMore,
 }: FeedListProps) {
   return (
     <section className="feed-list" aria-label="Community feed">
+      {feedType === "feed" && (
+        <nav className="feed-categories">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.value}
+              className={feedCategory === cat.value ? "active" : ""}
+              onClick={() => setFeedCategory(cat.value)}
+              type="button"
+            >
+              {cat.label}
+            </button>
+          ))}
+        </nav>
+      )}
+
       {posts.map((post) => (
         <article className="feed-card" key={post.id}>
           <header className="feed-card-head">
             <i>{initialsFor(post.authorName, post.authorUsername)}</i>
             <div>
               <strong>{post.authorName}</strong>
-              <small>@{post.authorUsername} · {formatTime(post.createdAt)}</small>
+              <small>@{post.authorUsername} · {formatTime(post.createdAt)} {post.category && `· ${post.category}`}</small>
             </div>
           </header>
 
@@ -68,6 +118,16 @@ export function FeedList({
               <CommunityIcon name="heart" size={15} /> {post.likeCount}
             </button>
             <span><CommunityIcon name="comment" size={15} /> {post.commentCount} Comments</span>
+            
+            <button
+              className={`bookmark-btn ${post.bookmarkedByMe ? "active" : ""}`}
+              type="button"
+              disabled={busyIds.has(`bookmark:${post.id}`)}
+              onClick={() => void onToggleBookmark(post.id)}
+              style={{ marginLeft: "auto" }}
+            >
+              <CommunityIcon name="bookmark" size={15} />
+            </button>
           </div>
 
           <div className="comment-list">
@@ -97,10 +157,28 @@ export function FeedList({
           </form>
         </article>
       ))}
+
+      {loading && (
+        <>
+          <SkeletonPost />
+          <SkeletonPost />
+          <SkeletonPost />
+        </>
+      )}
+
       {!loading && posts.length === 0 && (
-        <p className="empty-feed">Your feed is quiet. Connect with people or share the first post.</p>
+        <p className="empty-feed">
+          {feedType === "bookmarks" 
+            ? "You haven't bookmarked any posts yet." 
+            : "Your feed is quiet. Connect with people or share the first post."}
+        </p>
+      )}
+
+      {!loading && hasMore && (
+        <button className="load-more-btn" onClick={onLoadMore} type="button">
+          Load more
+        </button>
       )}
     </section>
   );
 }
-
