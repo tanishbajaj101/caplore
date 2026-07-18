@@ -7,6 +7,7 @@ import "./components/navigation/app-sidebar.css";
 
 const route = window.location.pathname.replace(/\/+$/, "") || "/";
 const companyRoute = route.match(/^\/companies\/([a-z0-9-]+)$/);
+const profileRoute = route.match(/^\/profile\/([^/]+)$/);
 
 async function renderRoute() {
   let Page: ComponentType;
@@ -61,6 +62,13 @@ async function renderRoute() {
     ]);
     Page = () => <CompanyApp slug={slug} />;
     document.title = "Company · Caplore";
+  } else if (profileRoute) {
+    const username = profileRoute[1];
+    const [{ default: PublicProfileApp }] = await Promise.all([
+      import("./pages/public-profile/PublicProfileApp"),
+      import("./pages/public-profile/public-profile.css"),
+    ]);
+    Page = () => <PublicProfileApp username={username} />;
   } else if (route === "/join") {
     const [{ default: JoinApp }] = await Promise.all([
       import("./pages/join/JoinApp"),
