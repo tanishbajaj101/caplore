@@ -1,39 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    },
-    {
       "source": "/about",
       "destination": "/about.html"
-    },
-    {
-      "source": "/dashboard",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/opportunities",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/companies",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/companies/:path*",
-      "destination": "/index.html"
     },
     {
       "source": "/join",
       "destination": "/join/index.html"
     },
     {
-      "source": "/login",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/community",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

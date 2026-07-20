@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ApiError, AuthUser, PublicProfile } from "../types";
-
-const apiBaseUrl = (
-  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000"
-).replace(/\/$/, "");
+import { apiBaseUrl } from "../../../api/config";
 const AUTH_STORAGE_KEY = "caplore_auth";
 
 function readUser(): AuthUser {
