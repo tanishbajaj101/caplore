@@ -1,4 +1,4 @@
-import type { Dispatch, FormEvent, SetStateAction } from "react";
+import { useState, type Dispatch, type FormEvent, type SetStateAction } from "react";
 import { initialsFor } from "../../../utils/person";
 import type { CommunityComment, CommunityPost } from "../types";
 import { CommunityIcon } from "./CommunityIcon";
@@ -55,6 +55,7 @@ type FeedListProps = {
   onSubmitComment: (postId: number) => Promise<void>;
   onToggleLike: (postId: number) => Promise<void>;
   onToggleBookmark: (postId: number) => Promise<void>;
+  onLoadComments: (postId: number) => Promise<void>;
   onLoadMore: () => void;
 };
 
@@ -72,8 +73,11 @@ export function FeedList({
   onSubmitComment,
   onToggleLike,
   onToggleBookmark,
+  onLoadComments,
   onLoadMore,
 }: FeedListProps) {
+  const [expandedComments, setExpandedComments] = useState<Set<number>>(new Set());
+
   return (
     <section className="feed-list" aria-label="Community feed">
       {feedType === "feed" && (
@@ -94,10 +98,16 @@ export function FeedList({
       {posts.map((post) => (
         <article className="feed-card" key={post.id}>
           <header className="feed-card-head">
-            <i>{initialsFor(post.authorName, post.authorUsername)}</i>
+            <a href={`/profile/${post.authorUsername}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <i>{initialsFor(post.authorName, post.authorUsername)}</i>
+            </a>
             <div>
-              <strong>{post.authorName}</strong>
-              <small>@{post.authorUsername} · {formatTime(post.createdAt)} {post.category && `· ${post.category}`}</small>
+              <a href={`/profile/${post.authorUsername}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <strong>{post.authorName}</strong>
+              </a>
+              <small>
+                <a href={`/profile/${post.authorUsername}`} style={{ textDecoration: 'none', color: 'inherit' }}>@{post.authorUsername}</a> · {formatTime(post.createdAt)} {post.category && `· ${post.category}`}
+              </small>
             </div>
           </header>
 
@@ -117,7 +127,22 @@ export function FeedList({
             >
               <CommunityIcon name="heart" size={15} /> {post.likeCount}
             </button>
-            <span><CommunityIcon name="comment" size={15} /> {post.commentCount} Comments</span>
+            <button
+              className={expandedComments.has(post.id) ? "active" : ""}
+              type="button"
+              onClick={() => {
+                const next = new Set(expandedComments);
+                if (next.has(post.id)) {
+                  next.delete(post.id);
+                } else {
+                  next.add(post.id);
+                  if (!comments[post.id]) void onLoadComments(post.id);
+                }
+                setExpandedComments(next);
+              }}
+            >
+              <CommunityIcon name="comment" size={15} /> {post.commentCount} Comments
+            </button>
             
             <button
               className={`bookmark-btn ${post.bookmarkedByMe ? "active" : ""}`}
@@ -130,31 +155,42 @@ export function FeedList({
             </button>
           </div>
 
-          <div className="comment-list">
-            {(comments[post.id] ?? []).map((comment) => (
-              <article key={comment.id}>
-                <i>{initialsFor(comment.authorName, comment.authorUsername)}</i>
-                <div><strong>{comment.authorName}</strong><p>{comment.body}</p></div>
-              </article>
-            ))}
-          </div>
-          <form
-            className="comment-form"
-            onSubmit={(event: FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              void onSubmitComment(post.id);
-            }}
-          >
-            <input
-              value={commentDrafts[post.id] ?? ""}
-              onChange={(event) => setCommentDrafts((drafts) => ({ ...drafts, [post.id]: event.target.value }))}
-              placeholder="Write a comment"
-              maxLength={1200}
-            />
-            <button type="submit" disabled={busyIds.has(`comment:${post.id}`) || !(commentDrafts[post.id] ?? "").trim()}>
-              Comment
-            </button>
-          </form>
+          {expandedComments.has(post.id) && (
+            <>
+              <div className="comment-list">
+                {(comments[post.id] ?? []).map((comment) => (
+                  <article key={comment.id}>
+                    <a href={`/profile/${comment.authorUsername}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <i>{initialsFor(comment.authorName, comment.authorUsername)}</i>
+                    </a>
+                    <div>
+                      <a href={`/profile/${comment.authorUsername}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <strong>{comment.authorName}</strong>
+                      </a>
+                      <p>{comment.body}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <form
+                className="comment-form"
+                onSubmit={(event: FormEvent<HTMLFormElement>) => {
+                  event.preventDefault();
+                  void onSubmitComment(post.id);
+                }}
+              >
+                <input
+                  value={commentDrafts[post.id] ?? ""}
+                  onChange={(event) => setCommentDrafts((drafts) => ({ ...drafts, [post.id]: event.target.value }))}
+                  placeholder="Write a comment"
+                  maxLength={1200}
+                />
+                <button type="submit" disabled={busyIds.has(`comment:${post.id}`) || !(commentDrafts[post.id] ?? "").trim()}>
+                  Comment
+                </button>
+              </form>
+            </>
+          )}
         </article>
       ))}
 

@@ -113,8 +113,6 @@ export function useCommunity() {
       if (suggestionsResult) setSuggestions(suggestionsResult.suggestions);
       
       setStatus({ state: "", message: "" });
-
-      void Promise.all(feedResult.posts.map((post) => loadComments(post.id)));
     } catch (error) {
       setStatus({
         state: "error",
@@ -370,6 +368,7 @@ export function useCommunity() {
     toggleLike,
     toggleBookmark,
     submitComment,
+    loadComments,
     profile,
     profileLoading,
   };

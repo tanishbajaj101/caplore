@@ -24,8 +24,15 @@ export function CommunityRightRail({
         <div className="people-list">
           {suggestions.map((person) => (
             <article key={person.username}>
-              <i>{initialsFor(person.name, person.username)}</i>
-              <div><strong>{person.name}</strong><span>@{person.username}</span></div>
+              <a href={`/profile/${person.username}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <i>{initialsFor(person.name, person.username)}</i>
+              </a>
+              <div>
+                <a href={`/profile/${person.username}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <strong>{person.name}</strong>
+                </a>
+                <span><a href={`/profile/${person.username}`} style={{ textDecoration: 'none', color: 'inherit' }}>@{person.username}</a></span>
+              </div>
               <button
                 type="button"
                 disabled={busyIds.has(`connect:${person.username}`)}
@@ -44,8 +51,15 @@ export function CommunityRightRail({
           <div className="request-list">
             {requests.map((request) => (
               <article key={request.id}>
-                <i>{initialsFor(request.fromUser.name, request.fromUser.username)}</i>
-                <div><strong>{request.fromUser.name}</strong><span>wants to connect</span></div>
+                <a href={`/profile/${request.fromUser.username}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <i>{initialsFor(request.fromUser.name, request.fromUser.username)}</i>
+                </a>
+                <div>
+                  <a href={`/profile/${request.fromUser.username}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <strong>{request.fromUser.name}</strong>
+                  </a>
+                  <span>wants to connect</span>
+                </div>
                 <div className="request-actions">
                   <button
                     type="button"

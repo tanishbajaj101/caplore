@@ -138,6 +138,7 @@ export default function CommunityApp() {
               onSubmitComment={community.submitComment}
               onToggleLike={community.toggleLike}
               onToggleBookmark={community.toggleBookmark}
+              onLoadComments={community.loadComments}
               onLoadMore={community.loadMore}
             />
           </section>
