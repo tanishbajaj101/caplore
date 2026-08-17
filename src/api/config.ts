@@ -1,5 +1,5 @@
 export const apiBaseUrl = (
   import.meta.env.VITE_API_BASE_URL ??
-  "https://caplore-backend-production.up.railway.app"
+  "https://admin.caplore.in"
 ).replace(/\/$/, "");
 
