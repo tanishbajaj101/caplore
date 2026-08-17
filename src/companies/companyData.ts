@@ -1,4 +1,6 @@
 import type { CompanyData, CompanySummary } from "./types";
+import { apiBaseUrl } from "../api/config";
+import { readStoredUser } from "../auth/storage";
 
 const DATA_ROOT = "/data/companies";
 const companyCache = new Map<string, Promise<CompanyData | null>>();
@@ -25,7 +27,12 @@ export function loadCompany(slug: string): Promise<CompanyData | null> {
   const cached = companyCache.get(slug);
   if (cached) return cached;
 
-  const request = fetch(`${DATA_ROOT}/${slug}.json`).then(async (response) => {
+  const token = readStoredUser().token;
+  const request = fetch(`${apiBaseUrl}/api/companies/${slug}`, {
+    headers: {
+      Authorization: `Bearer ${token ?? ""}`,
+    },
+  }).then(async (response) => {
     if (response.status === 404) return null;
     if (!response.ok) {
       throw new Error(`Could not load company data (${response.status}).`);
