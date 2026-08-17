@@ -24,7 +24,7 @@ export function useAiDailyBriefs(briefFilter: string, sortOrder: "ASC" | "DESC")
     setError("");
     try {
       const token = readStoredUser().token;
-      let url = `${apiBaseUrl}/api/caplore-ai-news-feed?page=1&order=${sortOrder}`;
+      let url = `${apiBaseUrl}/api/news/briefs?limit=20&order=${sortOrder}`;
       if (briefFilter !== "All") {
         url += `&category=${encodeURIComponent(briefFilter)}`;
       }
@@ -40,7 +40,7 @@ export function useAiDailyBriefs(briefFilter: string, sortOrder: "ASC" | "DESC")
         throw new Error(result.error || "Failed to load daily briefs.");
       }
 
-      setBriefs(result.briefs || []);
+      setBriefs(Array.isArray(result) ? result : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load daily briefs.");
     } finally {

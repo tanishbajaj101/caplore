@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { clearStoredUser, readStoredUser, type AuthUser } from "../../auth/storage";
+import { AiDailyBriefPanel } from "../dashboard/components/AiDailyBriefPanel";
+import "../dashboard/dashboard-home.css";
 
 export default function HomeApp() {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -14,7 +16,7 @@ export default function HomeApp() {
   };
 
   return (
-    <div className="home-page">
+    <div className="home-page dashboard-app" style={{ minHeight: "100vh", background: "#f5f7fb" }}>
       <header className="home-nav">
         <a className="home-logo" href="/" aria-label="Caplore home">
           Cap<span>lore</span>
@@ -28,7 +30,7 @@ export default function HomeApp() {
         <section className="home-welcome">
           <span className="home-eyebrow">Signed in</span>
           <h1>Welcome back, {user?.name ?? "there"}.</h1>
-          <p>This is a placeholder home page — replace this with real content.</p>
+          <p>Here is your daily AI-powered news briefing.</p>
         </section>
 
         <section className="home-profile-card" aria-label="Account details">
@@ -53,19 +55,8 @@ export default function HomeApp() {
           </dl>
         </section>
 
-        <section className="home-placeholder-grid">
-          <div className="home-placeholder-card">
-            <h3>Portfolio</h3>
-            <p>Dummy content — coming soon.</p>
-          </div>
-          <div className="home-placeholder-card">
-            <h3>Company Access</h3>
-            <p>Dummy content — coming soon.</p>
-          </div>
-          <div className="home-placeholder-card">
-            <h3>Notifications</h3>
-            <p>Dummy content — coming soon.</p>
-          </div>
+        <section className="home-news-section" style={{ gridColumn: "1 / -1" }}>
+          <AiDailyBriefPanel />
         </section>
       </main>
     </div>
